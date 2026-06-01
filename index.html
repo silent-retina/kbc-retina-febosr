@@ -1,0 +1,2499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaun Banega Crorepati – Retina & Uvea Edition | FEBOS-R Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #FFD700;
+    --gold2: #FFA500;
+    --dark-blue: #0a0a2e;
+    --mid-blue: #0d1b4b;
+    --light-blue: #1a3a8a;
+    --electric-blue: #00d4ff;
+    --hot-orange: #ff6600;
+    --correct-green: #00ff88;
+    --wrong-red: #ff3333;
+    --text-light: #e8d5a3;
+    --text-white: #ffffff;
+    --glow-gold: 0 0 20px #FFD700, 0 0 40px #FFD70066;
+    --glow-blue: 0 0 20px #00d4ff, 0 0 40px #00d4ff66;
+    --glow-green: 0 0 20px #00ff88, 0 0 40px #00ff8866;
+    --glow-red: 0 0 20px #ff3333, 0 0 40px #ff333366;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--dark-blue);
+    color: var(--text-white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === STARFIELD BG === */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(26,58,138,0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 50%, rgba(13,27,75,0.5) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* === SCREENS === */
+  .screen { display: none; position: relative; z-index: 1; }
+  .screen.active { display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* ===================== INTRO SCREEN ===================== */
+  #intro-screen {
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: radial-gradient(ellipse at center, #1a0050 0%, #0a0a2e 70%);
+  }
+
+  .intro-logo {
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeInDown 1s ease;
+  }
+
+  .intro-logo .kbc-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: var(--glow-gold);
+    letter-spacing: 4px;
+    line-height: 1.1;
+  }
+
+  .intro-logo .subtitle {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(14px, 2.5vw, 22px);
+    color: var(--electric-blue);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-top: 8px;
+    text-shadow: var(--glow-blue);
+  }
+
+  .intro-logo .edition {
+    font-size: clamp(12px, 2vw, 16px);
+    color: var(--text-light);
+    margin-top: 6px;
+    letter-spacing: 3px;
+  }
+
+  .host-intro {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,212,255,0.05));
+    border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 16px;
+    padding: 20px 30px;
+    margin: 20px 0;
+    max-width: 600px;
+    animation: fadeIn 1.5s ease;
+  }
+
+  .host-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    box-shadow: var(--glow-gold);
+    background: linear-gradient(135deg, #1a1a5e, #2a2a8e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    flex-shrink: 0;
+  }
+
+  .host-text h3 {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .host-text p {
+    color: var(--text-light);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .player-setup {
+    background: linear-gradient(135deg, rgba(13,27,75,0.8), rgba(10,10,46,0.8));
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    animation: fadeInUp 1s ease 0.5s both;
+  }
+
+  .player-setup h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .input-group {
+    margin-bottom: 16px;
+  }
+
+  .input-group label {
+    display: block;
+    color: var(--text-light);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 8px;
+    color: var(--text-white);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .input-group input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 15px rgba(255,215,0,0.2);
+  }
+
+  .study-sets {
+    margin-bottom: 20px;
+  }
+
+  .study-sets label {
+    display: block;
+    color: var(--text-light);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .set-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .set-btn {
+    padding: 12px 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 8px;
+    color: var(--electric-blue);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  .set-btn:hover { background: rgba(0,212,255,0.1); border-color: var(--electric-blue); }
+  .set-btn.selected {
+    background: rgba(255,215,0,0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: var(--glow-gold);
+  }
+
+  .start-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #b8860b, #FFD700, #b8860b);
+    border: none;
+    border-radius: 10px;
+    color: #0a0a2e;
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 900;
+    cursor: pointer;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    box-shadow: var(--glow-gold);
+    margin-top: 10px;
+  }
+
+  .start-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 40px rgba(255,215,0,0.8);
+  }
+
+  /* ===================== GAME SCREEN ===================== */
+  #game-screen {
+    flex-direction: column;
+    padding: 0;
+    background: radial-gradient(ellipse at top, #1a0050 0%, #0a0a2e 40%, #050515 100%);
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: linear-gradient(90deg, rgba(10,10,46,0.95), rgba(13,27,75,0.8), rgba(10,10,46,0.95));
+    border-bottom: 1px solid rgba(255,215,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .top-bar .player-name {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 16px;
+    text-shadow: var(--glow-gold);
+  }
+
+  .top-bar .current-prize {
+    font-family: 'Orbitron', monospace;
+    color: var(--electric-blue);
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .top-bar .current-prize span {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    text-shadow: var(--glow-gold);
+  }
+
+  .lifelines-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .lifeline-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: rgba(255,215,0,0.1);
+    color: var(--gold);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .lifeline-btn:hover:not(.used) {
+    background: rgba(255,215,0,0.25);
+    box-shadow: var(--glow-gold);
+    transform: scale(1.1);
+  }
+
+  .lifeline-btn.used {
+    opacity: 0.2;
+    cursor: not-allowed;
+    border-color: #666;
+    color: #666;
+  }
+
+  .lifeline-btn .tooltip {
+    display: none;
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.9);
+    color: white;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .lifeline-btn:hover .tooltip { display: block; }
+
+  /* MAIN GAME LAYOUT */
+  .game-layout {
+    display: flex;
+    flex: 1;
+    gap: 0;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  /* PRIZE LADDER */
+  .prize-ladder {
+    width: 200px;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, rgba(13,27,75,0.6), rgba(10,10,46,0.6));
+    border: 1px solid rgba(255,215,0,0.15);
+    border-radius: 12px;
+    padding: 12px 8px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .prize-ladder h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 11px;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .prize-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 6px;
+    margin: 2px 0;
+    font-size: 12px;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+  }
+
+  .prize-item .q-num {
+    color: #888;
+    font-size: 11px;
+    min-width: 20px;
+  }
+
+  .prize-item .amount {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .prize-item.milestone {
+    background: rgba(255,165,0,0.1);
+    border-color: rgba(255,165,0,0.3);
+  }
+
+  .prize-item.milestone .amount { color: var(--gold2); }
+  .prize-item.regular .amount { color: var(--text-light); }
+
+  .prize-item.current {
+    background: rgba(255,215,0,0.2);
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(255,215,0,0.3);
+    animation: pulse 1s infinite;
+  }
+
+  .prize-item.current .q-num,
+  .prize-item.current .amount { color: var(--gold); font-weight: 700; }
+
+  .prize-item.cleared {
+    background: rgba(0,255,136,0.08);
+  }
+  .prize-item.cleared .amount { color: var(--correct-green); }
+
+  /* CENTER GAME AREA */
+  .game-center {
+    flex: 1;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* HOST DIALOGUE */
+  .host-dialogue {
+    background: linear-gradient(135deg, rgba(26,58,138,0.3), rgba(13,27,75,0.4));
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 12px;
+    padding: 16px 20px;
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .host-mini-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: linear-gradient(135deg, #1a1a5e, #2a2a8e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .host-speech {
+    flex: 1;
+  }
+
+  .host-speech .host-name {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .host-speech .host-line {
+    color: var(--text-light);
+    font-size: 14px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* QUESTION BOX */
+  .question-container {
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .question-number {
+    text-align: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    color: var(--electric-blue);
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+    text-shadow: var(--glow-blue);
+  }
+
+  .question-box {
+    background: linear-gradient(135deg, rgba(13,27,75,0.9), rgba(26,58,138,0.5));
+    border: 2px solid rgba(255,215,0,0.4);
+    border-radius: 16px;
+    padding: 28px 32px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 40px rgba(0,212,255,0.1), inset 0 0 60px rgba(26,58,138,0.3);
+  }
+
+  .question-box::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 30px; right: 30px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .question-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text-white);
+    letter-spacing: 0.5px;
+  }
+
+  /* OPTIONS */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(13,27,75,0.85), rgba(26,58,138,0.4));
+    border: 1.5px solid rgba(0,212,255,0.25);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    transition: left 0.4s;
+  }
+
+  .option-btn:hover:not(.disabled)::before { left: 100%; }
+
+  .option-btn:hover:not(.disabled) {
+    border-color: var(--electric-blue);
+    background: linear-gradient(135deg, rgba(26,58,138,0.9), rgba(0,50,120,0.6));
+    box-shadow: var(--glow-blue);
+    transform: translateY(-1px);
+  }
+
+  .option-btn.disabled { cursor: not-allowed; }
+  .option-btn.hidden-by-5050 { visibility: hidden; }
+
+  .option-btn.selected-pending {
+    border-color: var(--gold2);
+    background: linear-gradient(135deg, rgba(100,60,0,0.6), rgba(80,50,0,0.4));
+    box-shadow: 0 0 20px rgba(255,165,0,0.4);
+    animation: pulse-orange 0.8s infinite;
+  }
+
+  .option-btn.correct {
+    border-color: var(--correct-green);
+    background: linear-gradient(135deg, rgba(0,80,40,0.8), rgba(0,60,30,0.5));
+    box-shadow: var(--glow-green);
+  }
+
+  .option-btn.wrong {
+    border-color: var(--wrong-red);
+    background: linear-gradient(135deg, rgba(80,0,0,0.8), rgba(60,0,0,0.5));
+    box-shadow: var(--glow-red);
+  }
+
+  .option-letter {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,212,255,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--electric-blue);
+    flex-shrink: 0;
+    background: rgba(0,0,0,0.2);
+    transition: all 0.25s;
+  }
+
+  .option-btn:hover:not(.disabled) .option-letter {
+    background: rgba(0,212,255,0.15);
+    border-color: var(--electric-blue);
+  }
+
+  .option-btn.correct .option-letter {
+    border-color: var(--correct-green);
+    color: var(--correct-green);
+    background: rgba(0,255,136,0.15);
+  }
+
+  .option-btn.wrong .option-letter {
+    border-color: var(--wrong-red);
+    color: var(--wrong-red);
+    background: rgba(255,51,51,0.15);
+  }
+
+  .option-btn.selected-pending .option-letter {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .option-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(13px, 1.8vw, 16px);
+    font-weight: 500;
+    color: var(--text-white);
+    line-height: 1.3;
+  }
+
+  /* CONFIRM BUTTONS */
+  .confirm-area {
+    display: none;
+    gap: 12px;
+    justify-content: center;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .confirm-area.visible { display: flex; }
+
+  .btn-confirm, .btn-change {
+    padding: 14px 32px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+  }
+
+  .btn-confirm {
+    background: linear-gradient(135deg, #006622, var(--correct-green), #006622);
+    color: #000;
+    box-shadow: var(--glow-green);
+  }
+
+  .btn-confirm:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(0,255,136,0.8); }
+
+  .btn-change {
+    background: linear-gradient(135deg, #660000, var(--wrong-red), #660000);
+    color: white;
+    box-shadow: var(--glow-red);
+  }
+
+  .btn-change:hover { transform: scale(1.05); }
+
+  /* EXPLANATION BOX */
+  .explanation-box {
+    display: none;
+    width: 100%;
+    max-width: 700px;
+    background: linear-gradient(135deg, rgba(0,40,20,0.7), rgba(0,20,10,0.5));
+    border: 1px solid rgba(0,255,136,0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+
+  .explanation-box.visible { display: block; }
+
+  .explanation-box h4 {
+    font-family: 'Cinzel', serif;
+    color: var(--correct-green);
+    font-size: 13px;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+
+  .explanation-box p {
+    color: var(--text-light);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* NEXT BUTTON */
+  .next-btn {
+    display: none;
+    padding: 16px 60px;
+    background: linear-gradient(135deg, #b8860b, var(--gold), #b8860b);
+    border: none;
+    border-radius: 10px;
+    color: #0a0a2e;
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
+    letter-spacing: 3px;
+    transition: all 0.3s;
+    box-shadow: var(--glow-gold);
+  }
+
+  .next-btn.visible { display: block; }
+  .next-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(255,215,0,0.9); }
+
+  /* QUIT BUTTON */
+  .quit-btn {
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid rgba(255,100,0,0.5);
+    border-radius: 8px;
+    color: var(--hot-orange);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+  }
+
+  .quit-btn:hover {
+    background: rgba(255,100,0,0.1);
+    border-color: var(--hot-orange);
+  }
+
+  /* STUDY SET BADGE */
+  .set-badge {
+    font-size: 12px;
+    color: var(--electric-blue);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 20px;
+    background: rgba(0,212,255,0.05);
+  }
+
+  /* ===================== RESULT SCREEN ===================== */
+  #result-screen {
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: radial-gradient(ellipse at center, #1a0050 0%, #0a0a2e 60%);
+    text-align: center;
+  }
+
+  .result-card {
+    max-width: 600px;
+    width: 100%;
+    animation: zoomIn 0.8s ease;
+  }
+
+  .result-trophy {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .result-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: var(--glow-gold);
+    margin-bottom: 10px;
+  }
+
+  .result-subtitle {
+    font-size: 18px;
+    color: var(--electric-blue);
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+  }
+
+  .result-amount-box {
+    background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,165,0,0.05));
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px 0;
+    box-shadow: var(--glow-gold);
+  }
+
+  .result-amount-box .label {
+    font-size: 14px;
+    color: var(--text-light);
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+
+  .result-amount-box .amount {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(36px, 6vw, 60px);
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: var(--glow-gold);
+  }
+
+  .result-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .stat-box {
+    background: rgba(13,27,75,0.6);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .stat-box .s-label {
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .stat-box .s-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--electric-blue);
+  }
+
+  .host-final-msg {
+    background: linear-gradient(135deg, rgba(26,58,138,0.3), rgba(13,27,75,0.4));
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    font-size: 15px;
+    color: var(--text-light);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  .play-again-btn {
+    padding: 18px 60px;
+    background: linear-gradient(135deg, #b8860b, var(--gold), #b8860b);
+    border: none;
+    border-radius: 10px;
+    color: #0a0a2e;
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 900;
+    cursor: pointer;
+    letter-spacing: 3px;
+    transition: all 0.3s;
+    box-shadow: var(--glow-gold);
+    margin-top: 10px;
+  }
+
+  .play-again-btn:hover { transform: scale(1.05); box-shadow: 0 0 60px rgba(255,215,0,0.9); }
+
+  /* ===================== MODALS ===================== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal-box {
+    background: linear-gradient(135deg, #0d1b4b, #0a0a2e);
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: var(--glow-gold), 0 20px 60px rgba(0,0,0,0.8);
+    animation: zoomIn 0.4s ease;
+  }
+
+  .modal-box h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+
+  .modal-box p {
+    color: var(--text-light);
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .modal-box .modal-emoji { font-size: 60px; margin-bottom: 16px; }
+
+  .modal-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  .modal-btn {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+  }
+
+  .modal-btn.gold {
+    background: linear-gradient(135deg, #b8860b, var(--gold));
+    color: #000;
+  }
+
+  .modal-btn.outline {
+    background: transparent;
+    border: 2px solid rgba(255,215,0,0.3);
+    color: var(--text-light);
+  }
+
+  .modal-btn:hover { transform: scale(1.05); }
+
+  /* AUDIENCE POLL */
+  .audience-bars {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    justify-content: center;
+    height: 120px;
+    margin: 20px 0;
+  }
+
+  .aud-bar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 50px;
+  }
+
+  .aud-bar {
+    width: 40px;
+    background: linear-gradient(180deg, var(--electric-blue), var(--light-blue));
+    border-radius: 4px 4px 0 0;
+    transition: height 1s ease;
+  }
+
+  .aud-pct { font-size: 13px; color: var(--electric-blue); font-weight: 700; }
+  .aud-label { font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold); }
+
+  /* PHONE FRIEND */
+  .phone-dialogue {
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: left;
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.7;
+    font-style: italic;
+    margin: 16px 0;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes zoomIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 15px rgba(255,215,0,0.4); } 50% { box-shadow: 0 0 30px rgba(255,215,0,0.8); } }
+  @keyframes pulse-orange { 0%,100% { box-shadow: 0 0 15px rgba(255,165,0,0.4); } 50% { box-shadow: 0 0 30px rgba(255,165,0,0.9); } }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+  @keyframes scanline {
+    0% { top: -100%; }
+    100% { top: 200%; }
+  }
+
+  /* DECORATIVE LINES */
+  .deco-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 4px 0;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+  ::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.3); border-radius: 3px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .game-layout { flex-direction: column; padding: 12px; }
+    .prize-ladder { width: 100%; max-height: 150px; overflow-x: auto; overflow-y: hidden; }
+    .prize-ladder-inner { display: flex; gap: 4px; flex-direction: row; overflow-x: auto; }
+    .prize-item { min-width: 80px; flex-direction: column; gap: 2px; }
+    .options-grid { grid-template-columns: 1fr; }
+    .result-stats { grid-template-columns: 1fr; }
+    .set-grid { grid-template-columns: 1fr; }
+  }
+
+  /* TIMER */
+  .timer-bar-wrap {
+    width: 100%;
+    max-width: 700px;
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .timer-bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, var(--correct-green), var(--electric-blue), var(--gold), var(--hot-orange), var(--wrong-red));
+    border-radius: 3px;
+    transition: width 1s linear;
+  }
+
+  .score-track {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    color: var(--electric-blue);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ INTRO SCREEN -->
+<div id="intro-screen" class="screen active">
+  <div class="intro-logo">
+    <div class="kbc-title">Kaun Banega Crorepati</div>
+    <div class="subtitle">🔬 Retina &amp; Uvea Edition 🔬</div>
+    <div class="edition">FEBOS-R Subspecialty Prep · European Board of Ophthalmology</div>
+  </div>
+
+  <div class="host-intro">
+    <div class="host-avatar">🎩</div>
+    <div class="host-text">
+      <h3>Amitabh Bachchan</h3>
+      <p>"Namaste, Doctor Sahab! I am Amitabh Bachchan, and today we shall test the very depths of your knowledge of the retina and uvea. The hot seat awaits. The question is — are you ready for the journey to one crore?"</p>
+    </div>
+  </div>
+
+  <div class="player-setup">
+    <h2>🩺 Enter the Hot Seat</h2>
+    <div class="input-group">
+      <label>Your Name</label>
+      <input type="text" id="player-name-input" placeholder="Dr. Anand..." value="Dr. Anand" />
+    </div>
+    <div class="study-sets">
+      <label>Choose Your Study Set</label>
+      <div class="set-grid">
+        <button class="set-btn selected" onclick="selectSet('vascular')">🩸 Vascular Diseases</button>
+        <button class="set-btn" onclick="selectSet('amd')">👁️ AMD</button>
+        <button class="set-btn" onclick="selectSet('myopia')">🔍 Myopia & Degenerations</button>
+        <button class="set-btn" onclick="selectSet('oncology')">🧬 Oncology</button>
+        <button class="set-btn" onclick="selectSet('imaging')">📸 Retinal Imaging</button>
+        <button class="set-btn" onclick="selectSet('uvea')">🌊 Uveitis & Uvea</button>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startGame()">🎯 COMPUTER JI, LOCK KAR DO!</button>
+  </div>
+</div>
+
+<!-- ============================================================ GAME SCREEN -->
+<div id="game-screen" class="screen">
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div>
+      <div class="player-name" id="player-display">Dr. Anand</div>
+      <div class="score-track" id="score-track">Correct: 0 | Wrong: 0</div>
+    </div>
+    <div class="current-prize">
+      PRIZE POOL
+      <span id="current-prize-display">₹ 0</span>
+    </div>
+    <div class="lifelines-bar">
+      <button class="lifeline-btn" id="ll-5050" onclick="use5050()" title="50:50">
+        <span>½½</span>
+        <span class="tooltip">50:50</span>
+      </button>
+      <button class="lifeline-btn" id="ll-phone" onclick="usePhone()" title="Phone a Friend">
+        <span>📞</span>
+        <span class="tooltip">Phone Friend</span>
+      </button>
+      <button class="lifeline-btn" id="ll-audience" onclick="useAudience()" title="Ask Audience">
+        <span>👥</span>
+        <span class="tooltip">Ask Audience</span>
+      </button>
+      <button class="quit-btn" onclick="confirmQuit()">🚪 QUIT</button>
+    </div>
+  </div>
+
+  <div class="game-layout">
+    <!-- PRIZE LADDER -->
+    <div class="prize-ladder">
+      <h3>Prize Ladder</h3>
+      <div id="prize-ladder-items"></div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="game-center">
+      <!-- HOST DIALOGUE -->
+      <div class="host-dialogue">
+        <div class="host-mini-avatar">🎩</div>
+        <div class="host-speech">
+          <div class="host-name">Amitabh Bachchan</div>
+          <div class="host-line" id="host-line">Bahut badiya... Aage badhte hain!</div>
+        </div>
+      </div>
+
+      <!-- QUESTION NUMBER + TIMER -->
+      <div class="question-number" id="q-number">QUESTION 1 of 15</div>
+      <div class="timer-bar-wrap"><div class="timer-bar" id="timer-bar"></div></div>
+      <div class="set-badge" id="set-badge-display">VASCULAR DISEASES</div>
+
+      <!-- QUESTION -->
+      <div class="question-container">
+        <div class="question-box">
+          <div class="question-text" id="question-text">Loading...</div>
+        </div>
+      </div>
+
+      <!-- OPTIONS -->
+      <div class="options-grid" id="options-grid">
+        <button class="option-btn" id="opt-A" onclick="selectOption('A')">
+          <div class="option-letter">A</div>
+          <div class="option-text" id="opt-A-text"></div>
+        </button>
+        <button class="option-btn" id="opt-B" onclick="selectOption('B')">
+          <div class="option-letter">B</div>
+          <div class="option-text" id="opt-B-text"></div>
+        </button>
+        <button class="option-btn" id="opt-C" onclick="selectOption('C')">
+          <div class="option-letter">C</div>
+          <div class="option-text" id="opt-C-text"></div>
+        </button>
+        <button class="option-btn" id="opt-D" onclick="selectOption('D')">
+          <div class="option-letter">D</div>
+          <div class="option-text" id="opt-D-text"></div>
+        </button>
+      </div>
+
+      <!-- CONFIRM -->
+      <div class="confirm-area" id="confirm-area">
+        <button class="btn-change" onclick="changeAnswer()">↩ CHANGE</button>
+        <button class="btn-confirm" onclick="lockAnswer()">✓ LOCK IT IN</button>
+      </div>
+
+      <!-- EXPLANATION -->
+      <div class="explanation-box" id="explanation-box">
+        <h4>📚 CLINICAL PEARL</h4>
+        <p id="explanation-text"></p>
+      </div>
+
+      <!-- NEXT -->
+      <button class="next-btn" id="next-btn" onclick="nextQuestion()">NEXT QUESTION →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ RESULT SCREEN -->
+<div id="result-screen" class="screen">
+  <div class="result-card">
+    <div class="result-trophy" id="result-trophy">🏆</div>
+    <div class="result-title" id="result-title">Congratulations!</div>
+    <div class="result-subtitle" id="result-subtitle">Dr. Anand</div>
+    <div class="result-amount-box">
+      <div class="label">YOU TAKE HOME</div>
+      <div class="amount" id="result-amount">₹ 0</div>
+    </div>
+    <div class="result-stats">
+      <div class="stat-box">
+        <div class="s-label">Questions</div>
+        <div class="s-value" id="res-q">0/15</div>
+      </div>
+      <div class="stat-box">
+        <div class="s-label">Correct</div>
+        <div class="s-value" id="res-correct" style="color:var(--correct-green)">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="s-label">Lifelines Used</div>
+        <div class="s-value" id="res-lifelines">0/3</div>
+      </div>
+    </div>
+    <div class="host-final-msg" id="host-final-msg"></div>
+    <button class="play-again-btn" onclick="playAgain()">🔄 PLAY AGAIN</button>
+  </div>
+</div>
+
+<!-- ============================================================ MODALS -->
+<!-- QUIT MODAL -->
+<div class="modal-overlay" id="quit-modal">
+  <div class="modal-box">
+    <div class="modal-emoji">🚪</div>
+    <h2>Quit the Game?</h2>
+    <p id="quit-modal-text"></p>
+    <div class="modal-btns">
+      <button class="modal-btn gold" onclick="doQuit()">YES, QUIT</button>
+      <button class="modal-btn outline" onclick="closeModal('quit-modal')">STAY IN</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUDIENCE MODAL -->
+<div class="modal-overlay" id="audience-modal">
+  <div class="modal-box">
+    <div class="modal-emoji">👥</div>
+    <h2>Ask the Audience</h2>
+    <p>The audience votes are in, Doctor Sahab...</p>
+    <div class="audience-bars" id="audience-bars">
+      <div class="aud-bar-wrap">
+        <div class="aud-bar" id="aud-A" style="height:0px"></div>
+        <div class="aud-pct" id="aud-A-pct">0%</div>
+        <div class="aud-label">A</div>
+      </div>
+      <div class="aud-bar-wrap">
+        <div class="aud-bar" id="aud-B" style="height:0px"></div>
+        <div class="aud-pct" id="aud-B-pct">0%</div>
+        <div class="aud-label">B</div>
+      </div>
+      <div class="aud-bar-wrap">
+        <div class="aud-bar" id="aud-C" style="height:0px"></div>
+        <div class="aud-pct" id="aud-C-pct">0%</div>
+        <div class="aud-label">C</div>
+      </div>
+      <div class="aud-bar-wrap">
+        <div class="aud-bar" id="aud-D" style="height:0px"></div>
+        <div class="aud-pct" id="aud-D-pct">0%</div>
+        <div class="aud-label">D</div>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn gold" onclick="closeModal('audience-modal')">THANK YOU, AUDIENCE!</button>
+    </div>
+  </div>
+</div>
+
+<!-- PHONE MODAL -->
+<div class="modal-overlay" id="phone-modal">
+  <div class="modal-box">
+    <div class="modal-emoji">📞</div>
+    <h2>Phone a Friend</h2>
+    <p>Calling Dr. Sharma, your ophthalmology colleague...</p>
+    <div class="phone-dialogue" id="phone-text"></div>
+    <div class="modal-btns">
+      <button class="modal-btn gold" onclick="closeModal('phone-modal')">THANK YOU, DOCTOR!</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========================================================
+// QUESTION BANK
+// ========================================================
+const QUESTION_BANK = {
+
+vascular: [
+  {
+    q: "A 65-year-old patient presents with sudden painless vision loss. FFA shows a 'blood and thunder' appearance with disc swelling and flame-shaped haemorrhages in all quadrants. What is the most likely diagnosis?",
+    opts: { A: "Branch retinal artery occlusion", B: "Central retinal vein occlusion", C: "Central retinal artery occlusion", D: "Anterior ischaemic optic neuropathy" },
+    correct: "B",
+    explanation: "CRVO classically presents with disc swelling, dilated tortuous veins, and flame haemorrhages in all four quadrants — the 'blood and thunder' fundus. CRAO presents with a pale retina and cherry red spot."
+  },
+  {
+    q: "Which factor is most strongly predictive of neovascularisation in non-ischaemic CRVO?",
+    opts: { A: "Visual acuity worse than 6/60", B: "Initial IOP > 21 mmHg", C: "Capillary non-perfusion > 10 disc areas on FFA", D: "Age > 70 years" },
+    correct: "C",
+    explanation: "Ischaemia on FFA (capillary non-perfusion ≥ 10 disc areas) is the strongest predictor of conversion to ischaemic CRVO and neovascularisation. Regular FFA monitoring is essential."
+  },
+  {
+    q: "DRCR.net Protocol S compared ranibizumab + deferred laser vs prompt laser for DME. Its key finding at 2 years was:",
+    opts: { A: "Prompt laser was superior for centre-involving DME", B: "Ranibizumab + deferred laser was superior to prompt laser for centre-involving DME", C: "Both treatments were equivalent", D: "Ranibizumab monotherapy was inferior to laser alone" },
+    correct: "B",
+    explanation: "DRCR.net Protocol S showed that ranibizumab with deferred laser achieved significantly better visual acuity outcomes than prompt laser for centre-involving DME at 1 and 2 years. This established anti-VEGF as first-line therapy for CI-DME, replacing laser as primary treatment."
+  },
+  {
+    q: "Which of the following is the MOST characteristic OCT finding in diabetic macular oedema (DME)?",
+    opts: { A: "Subretinal fluid with RPE detachment", B: "Cystoid spaces in the outer nuclear layer with loss of ellipsoid zone", C: "Diffuse retinal thickening without cysts", D: "Choroidal neovascularisation membrane" },
+    correct: "B",
+    explanation: "DME on OCT classically shows intraretinal cystic spaces (cystoid macular oedema) predominantly in the outer plexiform and outer nuclear layers, often with loss of the ellipsoid zone indicating photoreceptor damage."
+  },
+  {
+    q: "The ETDRS definition of clinically significant macular oedema (CSME) includes all of the following EXCEPT:",
+    opts: { A: "Thickening within 500 μm of the foveal centre", B: "Hard exudates within 500 μm of the foveal centre with adjacent thickening", C: "Any zone of retinal thickening ≥ 1 disc area within 1 disc diameter of the fovea", D: "Presence of any microaneurysms near the fovea" },
+    correct: "D",
+    explanation: "CSME requires retinal thickening (not just microaneurysms) within 500 μm of the fovea, hard exudates with adjacent thickening, or a zone ≥ 1 DA of thickening within 1 DD of the fovea. Microaneurysms alone do not define CSME."
+  },
+  {
+    q: "In proliferative diabetic retinopathy, which area of neovascularisation carries the greatest risk of vitreous haemorrhage?",
+    opts: { A: "NVD (neovascularisation of the disc)", B: "NVE away from the disc", C: "Iris neovascularisation", D: "Angle neovascularisation" },
+    correct: "A",
+    explanation: "NVD (neovascularisation at or within 1 DD of the disc) is the highest-risk site for vitreous haemorrhage in PDR. ETDRS defined high-risk PDR as NVD ≥ 1/4–1/3 disc area or NVD/NVE with vitreous haemorrhage."
+  },
+  {
+    q: "Optic disc collaterals in CRVO differ from NVD in that they:",
+    opts: { A: "Leak profusely on FFA", B: "Do not leak on FFA and represent alternative drainage channels", C: "Regress with anti-VEGF therapy", D: "Are associated with high IOP" },
+    correct: "B",
+    explanation: "Optociliary shunt vessels (disc collaterals) in CRVO are pre-existing venous anastomoses that become apparent as alternative drainage. Unlike NVD, they do NOT leak on FFA and should NOT be treated with photocoagulation."
+  },
+  {
+    q: "Which inherited thrombophilia is most commonly associated with retinal vascular occlusion in young patients?",
+    opts: { A: "Protein C deficiency", B: "Antithrombin III deficiency", C: "Factor V Leiden mutation", D: "Prothrombin G20210A mutation" },
+    correct: "C",
+    explanation: "Factor V Leiden mutation (activated protein C resistance) is the most common inherited thrombophilia overall and is most frequently associated with retinal vein occlusions in young patients without other risk factors."
+  },
+  {
+    q: "A cherry-red spot is seen in CRAO due to:",
+    opts: { A: "Haemorrhage at the fovea", B: "Choroidal circulation showing through the thin foveal area against pale surrounding retina", C: "Foveal RPE hyperplasia", D: "Increased choroidal thickness at the macula" },
+    correct: "B",
+    explanation: "In CRAO, the inner retina becomes oedematous and opaque (pale). At the fovea, the retina is thinner with no ganglion cell layer, allowing the intact underlying choroidal circulation to appear as a cherry-red spot."
+  },
+  {
+    q: "The SCORE trial for CRVO macular oedema compared intravitreal triamcinolone to observation. What was its key finding?",
+    opts: { A: "1mg triamcinolone was superior to 4mg", B: "Both doses were superior to observation", C: "Neither dose was superior to observation", D: "4mg triamcinolone was superior but not 1mg" },
+    correct: "B",
+    explanation: "The SCORE-CRVO trial showed that both 1mg and 4mg intravitreal triamcinolone were superior to observation for CRVO macular oedema in terms of visual gain, with similar efficacy but different side effect profiles."
+  },
+  {
+    q: "Rubeosis iridis typically appears first at the:",
+    opts: { A: "Pupillary margin", B: "Mid-iris stroma", C: "Angle of the anterior chamber", D: "Ciliary body" },
+    correct: "A",
+    explanation: "Rubeosis iridis (iris neovascularisation) characteristically first appears at the pupillary margin before extending over the iris surface and into the anterior chamber angle, where it can cause neovascular glaucoma."
+  },
+  {
+    q: "Which OCT-A finding is characteristic of a focal area of capillary non-perfusion in diabetic retinopathy?",
+    opts: { A: "Increased flow signal with enlarged foveal avascular zone", B: "Enlarged FAZ with reduced or absent flow in the area", C: "Subretinal hyperreflective material", D: "Type 1 choroidal neovascularisation" },
+    correct: "B",
+    explanation: "OCT-A in diabetic retinopathy reveals an enlarged foveal avascular zone (FAZ) and areas of capillary dropout shown as signal voids (absent flow). This corresponds to capillary non-perfusion seen on traditional FFA."
+  },
+  {
+    q: "The FAME trial established which steroid implant as effective for DME?",
+    opts: { A: "Dexamethasone (Ozurdex)", B: "Fluocinolone acetonide (Iluvien)", C: "Triamcinolone acetonide (Kenalog)", D: "Betamethasone intravitreal" },
+    correct: "B",
+    explanation: "The FAME (Fluocinolone Acetonide for Macular Edema) trials demonstrated the efficacy of the Iluvien implant (0.2 μg/day fluocinolone acetonide) for chronic DME, particularly in pseudophakic patients and those who had previously responded to steroids."
+  },
+  {
+    q: "Hypertensive retinopathy grade 4 (Keith-Wagener-Barker classification) is defined by the presence of:",
+    opts: { A: "AV nicking only", B: "Flame haemorrhages and cotton wool spots", C: "Disc swelling (papilloedema)", D: "Hard exudates at the macula (macular star)" },
+    correct: "C",
+    explanation: "KWB Grade 4 is defined by papilloedema (disc swelling) in addition to the features of Grade 3. This indicates severely elevated intracranial pressure or malignant hypertension and requires urgent management."
+  },
+  {
+    q: "In sickle cell retinopathy, the 'sea fan' neovascularisation occurs most commonly at which meridian of the peripheral retina?",
+    opts: { A: "Nasal periphery", B: "Superior temporal periphery", C: "Inferior nasal periphery", D: "All quadrants equally" },
+    correct: "B",
+    explanation: "Sea fan neovascularisation in sickle cell retinopathy characteristically occurs in the superotemporal peripheral retina. The temporal quadrants are most commonly affected due to greater metabolic demand and relative ischaemia."
+  }
+],
+
+amd: [
+  {
+    q: "The AREDS2 supplement formula (which replaced the original AREDS) substituted beta-carotene with which two carotenoids?",
+    opts: { A: "Zeaxanthin and alpha-carotene", B: "Lutein and zeaxanthin", C: "Lycopene and lutein", D: "Astaxanthin and lutein" },
+    correct: "B",
+    explanation: "AREDS2 replaced beta-carotene with lutein 10mg + zeaxanthin 2mg due to the increased risk of lung cancer with beta-carotene in smokers. The AREDS2 formula reduced the risk of advanced AMD by 25% over 5 years."
+  },
+  {
+    q: "Type 3 macular neovascularisation (retinal angiomatous proliferation) originates from:",
+    opts: { A: "Choroid, growing upward through Bruch's membrane", B: "Retinal vessels, growing outward and potentially anastomosing with choroidal NV", C: "Subretinal pigment epithelium space only", D: "Iris vessels extending posteriorly" },
+    correct: "B",
+    explanation: "Type 3 MNV (RAP) originates from intraretinal capillaries and grows outward (retinal angiomatous proliferation). It may form a retinochoroidal anastomosis with the choroidal circulation. It is associated with bilateral disease and carries a poorer prognosis."
+  },
+  {
+    q: "Which OCT feature BEST distinguishes a Type 1 MNV from geographic atrophy on OCT?",
+    opts: { A: "Presence of subretinal fluid", B: "Double-layer sign (RPE and Bruch's separation) with material beneath the RPE", C: "Choroidal thinning", D: "Outer retinal tubulations" },
+    correct: "B",
+    explanation: "Type 1 MNV (occult/sub-RPE CNV) shows the 'double-layer sign' on OCT — separation between the RPE and Bruch's membrane with heterogeneous material (the CNV membrane) in between. This is absent in pure geographic atrophy."
+  },
+  {
+    q: "ANCHOR and MARINA trials established ranibizumab's efficacy in neovascular AMD. The primary endpoint was:",
+    opts: { A: "Gain of ≥15 letters at 12 months", B: "Loss of fewer than 15 letters at 12 months", C: "Mean change in VA at 24 months", D: "Reduction in CNV lesion size on FFA" },
+    correct: "B",
+    explanation: "The primary endpoint of MARINA and ANCHOR was 'loss of fewer than 15 letters' at 12 months (maintenance of VA). Ranibizumab met this endpoint in >90% of patients, compared to ~26-40% with PDT/sham control."
+  },
+  {
+    q: "In the VIEW 1&2 trials comparing aflibercept to ranibizumab for nAMD, which dosing regimen of aflibercept was non-inferior?",
+    opts: { A: "Aflibercept 2mg monthly", B: "Aflibercept 0.5mg every 2 months after loading", C: "Aflibercept 2mg every 2 months after 3 monthly loading doses", D: "Aflibercept 0.5mg monthly" },
+    correct: "C",
+    explanation: "VIEW trials showed that aflibercept 2q8 (2mg every 8 weeks after 3 monthly loading doses) was non-inferior to monthly ranibizumab 0.5mg. This established the every-2-month dosing regimen as standard of care."
+  },
+  {
+    q: "Polypoidal choroidal vasculopathy (PCV) is best characterised on imaging by:",
+    opts: { A: "Blocked fluorescence on FFA with late leakage", B: "Polypoidal dilations on ICGA appearing as hyperfluorescent lesions", C: "Outer retinal tubulations on OCT", D: "Choroidal thinning on enhanced depth imaging OCT" },
+    correct: "B",
+    explanation: "PCV is best characterised by ICGA, which shows a branching vascular network with terminal polypoidal dilations (appearing as hyperfluorescent 'hot spots'). OCT shows PED with notching or 'thumb-like' extensions."
+  },
+  {
+    q: "Geographic atrophy (GA) on fundus autofluorescence (FAF) appears as:",
+    opts: { A: "Hyperautofluorescence due to lipofuscin accumulation", B: "Hypoautofluorescence due to loss of RPE/photoreceptors", C: "Mixed hyper/hypoautofluorescence pattern", D: "Normal autofluorescence" },
+    correct: "B",
+    explanation: "GA on FAF shows well-demarcated areas of hypoautofluorescence (signal loss) because the RPE — the source of lipofuscin-generated autofluorescence — is absent. The junctional zone may show hyperAF indicating stressed RPE."
+  },
+  {
+    q: "The HAWK and HARRIER trials established which anti-VEGF agent for nAMD with a potential for extended dosing (up to q16w)?",
+    opts: { A: "Ranibizumab", B: "Aflibercept", C: "Brolucizumab", D: "Faricimab" },
+    correct: "C",
+    explanation: "HAWK and HARRIER trials established brolucizumab (3mg and 6mg) for nAMD, with non-inferior visual outcomes to aflibercept and the potential for every-12-week or every-16-week dosing in a majority of patients."
+  },
+  {
+    q: "Faricimab (Vabysmo) has a dual mechanism of action. What is its second target beyond VEGF-A?",
+    opts: { A: "PDGF-B", B: "Angiopoietin-2 (Ang-2)", C: "VEGF-C", D: "Complement factor D" },
+    correct: "B",
+    explanation: "Faricimab is a bispecific antibody targeting both VEGF-A and Angiopoietin-2 (Ang-2). Blocking Ang-2 stabilises the vasculature by preventing Tie-2 destabilisation, providing complementary anti-permeability effects beyond anti-VEGF."
+  },
+  {
+    q: "Subretinal drusenoid deposits (SDD, reticular pseudodrusen) are best visualised on which imaging modality?",
+    opts: { A: "Colour fundus photography", B: "Infrared reflectance imaging or short-wavelength FAF", C: "Fluorescein angiography", D: "ICGA" },
+    correct: "B",
+    explanation: "SDD (reticular pseudodrusen) are best seen on infrared reflectance imaging and short-wavelength FAF, appearing as a reticular pattern. They are located in the subretinal space (above the RPE) and are associated with high risk of advanced AMD and systemic cardiovascular disease."
+  },
+  {
+    q: "Which drusen characteristic on OCT carries the HIGHEST risk of progression to advanced AMD?",
+    opts: { A: "Small hard drusen", B: "Soft confluent drusen with overlying hyperreflective foci", C: "Calcified drusen", D: "Drusenoid PED without hyperreflective foci" },
+    correct: "B",
+    explanation: "Soft confluent drusen with overlying hyperreflective foci (HRF) on OCT represent the highest risk for progression to advanced AMD (either GA or CNV). HRF correlate with photoreceptor degeneration and microglial activation."
+  },
+  {
+    q: "The EVEREST II trial for PCV demonstrated that the combination of ranibizumab plus PDT was superior to ranibizumab monotherapy for which endpoint?",
+    opts: { A: "Gaining ≥15 ETDRS letters", B: "Complete polyp regression at 12 months", C: "Reduction in central subfield thickness", D: "Prevention of conversion to macular atrophy" },
+    correct: "B",
+    explanation: "EVEREST II showed combination ranibizumab + PDT achieved significantly higher rates of complete polyp regression (69.3% vs 34.7%) compared to ranibizumab monotherapy at 12 months, while VA gains were similar."
+  },
+  {
+    q: "Outer retinal tubulations (ORTs) seen on OCT in advanced AMD represent:",
+    opts: { A: "Active subretinal neovascularisation", B: "Collapsed tubes of degenerate photoreceptors — a marker of irreversible photoreceptor loss", C: "Drusen regressing into the RPE", D: "Subretinal fluid accumulation" },
+    correct: "B",
+    explanation: "ORTs are hyporeflective round or ovoid structures on OCT lined by ellipsoid zone material. They represent rolled photoreceptors forming tubes after outer retinal degeneration — a marker of irreversible photoreceptor loss, associated with poor visual prognosis."
+  },
+  {
+    q: "Which complement pathway component is targeted by pegcetacoplan (Syfovre) for geographic atrophy?",
+    opts: { A: "Complement C5", B: "Complement C3", C: "Complement factor H", D: "Complement factor D" },
+    correct: "B",
+    explanation: "Pegcetacoplan (Syfovre) is a complement C3 inhibitor approved for GA secondary to AMD. The OAKS and DERBY trials demonstrated it slowed the rate of GA progression. Avacincaptad pegol targets complement C5."
+  },
+  {
+    q: "In the CATT trial, bevacizumab was compared to ranibizumab for nAMD. The key conclusion was:",
+    opts: { A: "Ranibizumab was significantly superior for visual outcomes", B: "Bevacizumab was non-inferior to ranibizumab for visual acuity outcomes", C: "PRN dosing was superior to monthly dosing for both agents", D: "Bevacizumab caused significantly more systemic adverse events" },
+    correct: "B",
+    explanation: "The CATT trial showed bevacizumab was non-inferior to ranibizumab for visual acuity outcomes in nAMD. However, bevacizumab showed slightly more systemic serious adverse events (hospitalisations), though this was not statistically significant."
+  }
+],
+
+myopia: [
+  {
+    q: "In the IMI (International Myopia Institute) definition, high myopia is defined as spherical equivalent refraction of:",
+    opts: { A: "≤ -3.00 D", B: "≤ -5.00 D", C: "≤ -6.00 D", D: "≤ -8.00 D" },
+    correct: "C",
+    explanation: "The IMI defines high myopia as spherical equivalent refraction ≤ -6.00 D. Pathological myopia refers to myopia-associated structural changes regardless of degree. The COMET study used ≤ -6.00 D as the threshold."
+  },
+  {
+    q: "Myopic traction maculopathy (MTM) staging system (ATN) classifies which of the following as the most advanced stage of tractional change?",
+    opts: { A: "Lamellar hole with epiretinal proliferation", B: "Full-thickness macular hole with retinal detachment", C: "Outer lamellar hole", D: "Foveoschisis with preserved photoreceptors" },
+    correct: "B",
+    explanation: "The ATN (Atrophy-Traction-Neovascularisation) classification for MTM uses T0-T5 for traction. T5 represents full-thickness macular hole with retinal detachment — the most severe tractional stage, associated with worst visual outcomes."
+  },
+  {
+    q: "Lacquer cracks in pathological myopia represent:",
+    opts: { A: "Breaks in the internal limiting membrane", B: "Breaks through all layers of Bruch's membrane", C: "Linear breaks in Bruch's membrane and RPE", D: "Choroidal vessel ruptures" },
+    correct: "C",
+    explanation: "Lacquer cracks are linear yellowish streaks representing breaks in Bruch's membrane, RPE, and choriocapillaris complex. They predispose to myopic choroidal neovascularisation (myopic CNV) and are a risk factor for vision loss."
+  },
+  {
+    q: "The RADIANCE trial demonstrated the efficacy of which anti-VEGF for myopic CNV?",
+    opts: { A: "Bevacizumab", B: "Pegaptanib", C: "Ranibizumab", D: "Aflibercept" },
+    correct: "C",
+    explanation: "The RADIANCE trial established ranibizumab as superior to verteporfin PDT for myopic CNV, with significantly better visual acuity outcomes at 12 months. Myopic CNV generally requires fewer anti-VEGF injections than nAMD."
+  },
+  {
+    q: "Which optical intervention is most supported by evidence for myopia progression control in children?",
+    opts: { A: "Single-vision soft contact lenses", B: "Orthokeratology lenses", C: "Anti-reflective spectacle lenses", D: "Bifocal spectacles" },
+    correct: "B",
+    explanation: "Orthokeratology (overnight corneal reshaping) is one of the best-evidenced interventions for myopia control, reducing axial elongation by ~40-50%. Low-dose atropine (0.01-0.025%) is also highly effective. DIMS lenses and extended depth-of-focus CLs are newer alternatives."
+  },
+  {
+    q: "Staphyloma in pathological myopia is defined as:",
+    opts: { A: "Choroidal thinning below 100 μm", B: "Outward bulging of the scleral wall with uveal tissue", C: "Inward curvature of the posterior pole on MRI", D: "Full-thickness retinal defect at the posterior pole" },
+    correct: "B",
+    explanation: "A posterior staphyloma is defined as an outward bulging of the scleral wall lined by uveal tissue, occurring in areas of scleral weakness. It is classified by the Curtin classification and is best appreciated on B-scan ultrasonography or MRI."
+  },
+  {
+    q: "Dome-shaped macula (DSM) in high myopia is a risk factor for which complication?",
+    opts: { A: "Myopic CNV", B: "Macular schisis", C: "Subretinal fluid accumulation unrelated to CNV or traction", D: "Lacquer crack formation" },
+    correct: "C",
+    explanation: "Dome-shaped macula (convex inward configuration on OCT) is associated with subretinal fluid accumulation at the fovea independent of CNV or traction, likely due to altered fluid dynamics from the dome's scleral configuration."
+  },
+  {
+    q: "Pars plana vitrectomy for myopic foveoschisis aims to address which pathological mechanism?",
+    opts: { A: "Remove subretinal CNV membrane", B: "Relieve vitreous traction and inner retinal traction from ILM/ERM", C: "Reduce axial length by internal scleral compression", D: "Treat choroidal ischaemia" },
+    correct: "B",
+    explanation: "PPV for myopic foveoschisis (MTM) aims to relieve vitreoretinal traction and tangential traction from the ILM and any epiretinal membrane. ILM peeling is often performed. The goal is to allow the schisis to resolve and prevent progression to full-thickness macular hole."
+  },
+  {
+    q: "Peripheral retinal lattice degeneration is associated with which type of retinal break most commonly causing rhegmatogenous retinal detachment in myopes?",
+    opts: { A: "Operculated tear at site of lattice", B: "Horseshoe (U-shaped) tear at margin of lattice", C: "Round atrophic hole within lattice", D: "Giant retinal tear" },
+    correct: "C",
+    explanation: "Round atrophic holes within lattice are the most common type of retinal break in myopes but carry LOW risk of RD (as vitreous is often already detached). Horseshoe tears at the margins of lattice (from vitreous traction) have the HIGHEST risk of causing RD."
+  },
+  {
+    q: "Fuch's spots in pathological myopia represent:",
+    opts: { A: "Areas of RPE atrophy alone", B: "Pigmented scar after resolution of myopic CNV", C: "Drusen-like deposits in high myopia", D: "Choroidal folds secondary to staphyloma" },
+    correct: "B",
+    explanation: "Fuchs' spots (Förster-Fuchs spots) are pigmented circular lesions at the macula representing healed/scarred myopic CNV with RPE hyperplasia. They are associated with permanent central scotoma and reduced visual acuity."
+  },
+  {
+    q: "Which atropine concentration showed the best balance of myopia control efficacy with minimal side effects in the ATOM studies?",
+    opts: { A: "1% atropine", B: "0.5% atropine", C: "0.01% atropine", D: "0.1% atropine" },
+    correct: "C",
+    explanation: "The ATOM2 study showed 0.01% atropine had the best balance — it reduced myopia progression by ~60% with minimal side effects (pupil dilation, accommodation loss) and minimal rebound effect after cessation compared to higher concentrations."
+  },
+  {
+    q: "In myopic tractional maculopathy, the 'N' component of ATN staging refers to neovascularisation. Which FFA/OCT-A finding best confirms active myopic CNV?",
+    opts: { A: "Blocked fluorescence on FFA", B: "Early hyperfluorescence with late leakage on FFA and flow signal on OCT-A", C: "Hypofluorescence throughout on FFA", D: "Geographic RPE atrophy on FAF" },
+    correct: "B",
+    explanation: "Active myopic CNV on FFA shows early hyperfluorescence (filling of CNV) with late leakage of dye. On OCT-A, the flow signal within the CNV network confirms active neovascularisation, even when subtle on structural OCT."
+  },
+  {
+    q: "Bilateral high myopia with foveoschisis, posterior staphyloma, and axial length > 26 mm — which surgical approach has shown promising results for progressive MTM?",
+    opts: { A: "Macular buckling", B: "Pneumatic retinopexy", C: "Encircling scleral buckle", D: "Intravitreal gas without vitrectomy" },
+    correct: "A",
+    explanation: "Macular buckling (Ando procedure) addresses the underlying scleral ectasia by externally indenting the posterior pole, thereby reducing tractional forces. It is particularly considered for MTM associated with progressive staphyloma when PPV alone is insufficient."
+  },
+  {
+    q: "Which finding on B-scan ultrasonography is pathognomonic of posterior vitreous detachment in high myopia?",
+    opts: { A: "A single echogenic line posterior to the vitreous cavity", B: "Weiss ring (ring-like echogenicity anterior to disc)", C: "Dense vitreous opacification", D: "Choroidal excavation" },
+    correct: "B",
+    explanation: "A Weiss ring (annular vitreous opacity) on B-scan or visible as a ring-like floater represents the glial tissue (peripapillary glial ring) attached to the posterior hyaloid at the disc after PVD — pathognomonic of complete PVD."
+  },
+  {
+    q: "Axial length measurement using partial coherence interferometry (IOLMaster) vs A-scan ultrasonography: which is more accurate and why?",
+    opts: { A: "A-scan is more accurate due to direct tissue contact", B: "IOLMaster is more accurate due to non-contact optical measurement avoiding corneal compression", C: "Both are equivalent in high myopia", D: "A-scan is preferred in staphyloma" },
+    correct: "B",
+    explanation: "Partial coherence interferometry (IOLMaster, Lenstar) provides more reproducible and accurate axial length measurements than contact A-scan ultrasonography because it avoids corneal compression artifact and has higher resolution. It is preferred unless media opacity precludes it."
+  }
+],
+
+oncology: [
+  {
+    q: "The Collaborative Ocular Melanoma Study (COMS) compared which two treatments for large choroidal melanoma?",
+    opts: { A: "Brachytherapy vs proton beam radiotherapy", B: "Enucleation vs pre-enucleation radiotherapy + enucleation", C: "Transpupillary thermotherapy vs brachytherapy", D: "Enucleation vs observation" },
+    correct: "B",
+    explanation: "The COMS Large Tumour Trial compared enucleation alone vs pre-enucleation external beam radiotherapy (20Gy) followed by enucleation. No significant difference in 5-year mortality was found, establishing enucleation as standard for large tumours without pre-enucleation radiotherapy."
+  },
+  {
+    q: "Choroidal melanoma most commonly metastasises to which organ?",
+    opts: { A: "Lung", B: "Bone", C: "Liver", D: "Brain" },
+    correct: "C",
+    explanation: "Choroidal melanoma metastasises haematogenously (no lymphatics in the eye). The liver is the most common site (80-90% of metastases), followed by lung and bone. Liver metastases are often the cause of death and have very poor prognosis."
+  },
+  {
+    q: "Which genetic mutation/monosomy is the MOST important prognostic factor for metastatic risk in uveal melanoma?",
+    opts: { A: "GNAQ/GNA11 mutation", B: "Monosomy 3", C: "BAP1 mutation", D: "Gain of chromosome 8q" },
+    correct: "B",
+    explanation: "Monosomy 3 (loss of one copy of chromosome 3) is the single most important prognostic marker for metastatic risk in uveal melanoma, associated with ~50% 5-year metastatic risk. BAP1 (located on 3p) mutation is a consequence and also strongly prognostic."
+  },
+  {
+    q: "Retinoblastoma is caused by biallelic inactivation of which tumour suppressor gene?",
+    opts: { A: "TP53", B: "BRCA1", C: "RB1", D: "PTEN" },
+    correct: "C",
+    explanation: "Retinoblastoma is caused by biallelic loss of the RB1 tumour suppressor gene on chromosome 13q14. Knudson's 'two-hit hypothesis': germline mutation (1st hit) + somatic mutation (2nd hit) in heritable form; both somatic in sporadic form."
+  },
+  {
+    q: "Leukocoria in a child is most commonly caused by which condition in developed countries?",
+    opts: { A: "Retinoblastoma", B: "Persistent fetal vasculature (PFV)", C: "Cataract", D: "Coats disease" },
+    correct: "C",
+    explanation: "While retinoblastoma is the most important differential for leukocoria, cataract is actually the most COMMON cause overall. However, in the context of intraocular tumour differentials and FEBOS-R, retinoblastoma is the critical diagnosis to exclude."
+  },
+  {
+    q: "International Classification of Retinoblastoma (ICRB) Group E disease includes which features?",
+    opts: { A: "Small tumour away from critical structures", B: "Large tumour with subretinal seeds and vitreous seeding >3mm from tumour", C: "Extensive entorhinal involvement and massive vitreous/subretinal seeding or anterior segment extension", D: "Tumour with total retinal detachment" },
+    correct: "C",
+    explanation: "ICRB Group E represents the most severe intraocular disease — eyes with extensive retinoblastoma with neovascular glaucoma, opaque media from haemorrhage, anterior segment disease, or diffuse infiltrating pattern. These eyes often require enucleation."
+  },
+  {
+    q: "Optic disc melanocytoma most importantly must be distinguished from choroidal melanoma. Which feature favours melanocytoma?",
+    opts: { A: "Growth on serial photography", B: "Associated vitreous seeds", C: "Jet-black colour, stable on imaging, with no overlying orange pigment (lipofuscin)", D: "Ultrasonographic hollowness" },
+    correct: "C",
+    explanation: "Melanocytoma is a benign melanocytic tumour appearing jet-black, stable over years, with no orange pigment (lipofuscin). Choroidal melanoma shows orange lipofuscin (FAF hyperautofluorescence), acoustic hollowness on US, growth, and associated subretinal fluid."
+  },
+  {
+    q: "Intra-arterial chemotherapy for retinoblastoma delivers which agent directly to the ophthalmic artery?",
+    opts: { A: "Carboplatin", B: "Vincristine", C: "Melphalan", D: "Etoposide" },
+    correct: "C",
+    explanation: "Intra-arterial chemotherapy (ophthalmic artery chemosurgery) primarily uses melphalan, with or without topotecan or carboplatin. Melphalan is the most commonly used agent, achieving high intraocular concentrations with low systemic toxicity."
+  },
+  {
+    q: "Choroidal haemangioma circumscripta on ultrasonography shows:",
+    opts: { A: "Acoustic hollowness and choroidal excavation", B: "High internal reflectivity and no acoustic hollowness", C: "Calcification with shadowing", D: "Low internal reflectivity similar to melanoma" },
+    correct: "B",
+    explanation: "Circumscribed choroidal haemangioma on B-scan shows high internal reflectivity (due to vascular spaces) and NO acoustic hollowness (unlike melanoma). On FFA it shows early bright hyperfluorescence ('raspberry' appearance) that washes out late."
+  },
+  {
+    q: "Which systemic condition is associated with diffuse choroidal haemangioma?",
+    opts: { A: "Von Hippel-Lindau syndrome", B: "Sturge-Weber syndrome", C: "Neurofibromatosis type 2", D: "Birt-Hogg-Dubé syndrome" },
+    correct: "B",
+    explanation: "Diffuse choroidal haemangioma (tomato ketchup fundus) is associated with Sturge-Weber syndrome (encephalotrigeminal angiomatosis). Circumscribed haemangioma is typically sporadic. VHL is associated with retinal capillary haemangioblastoma (von Hippel tumour)."
+  },
+  {
+    q: "Primary vitreoretinal lymphoma (PVRL) most commonly presents with:",
+    opts: { A: "Dense vitreous haemorrhage", B: "White-yellow sub-RPE deposits with vitritis refractory to steroids", C: "Rhegmatogenous retinal detachment", D: "Ischaemic perivascular sheathing" },
+    correct: "B",
+    explanation: "PVRL (large B-cell lymphoma) classically presents as a masquerade syndrome with vitritis and creamy white-yellow sub-RPE deposits (lymphoma cells between RPE and Bruch's). It is refractory to steroids and must be diagnosed by vitreous biopsy with cytology."
+  },
+  {
+    q: "Choroidal osteoma appears on B-scan ultrasound as:",
+    opts: { A: "Hypoechoic mass with retinal detachment", B: "Highly echogenic plaque with orbital shadowing", C: "Dome-shaped solid mass with acoustic hollowness", D: "Calcified mass without orbital shadowing" },
+    correct: "B",
+    explanation: "Choroidal osteoma is calcified (ossified) and appears as a highly echogenic (bright) plaque with dense posterior orbital shadowing on B-scan. CT scan confirms bony density. It is peripapillary, more common in young women, and can cause CNV."
+  },
+  {
+    q: "In the COMS Medium Tumour Trial, I-125 plaque brachytherapy was compared to enucleation. The 5-year mortality rate was:",
+    opts: { A: "Significantly better with brachytherapy", B: "Significantly better with enucleation", C: "Equivalent between the two treatments", D: "Not analysed in this trial" },
+    correct: "C",
+    explanation: "The COMS Medium Tumour Trial showed equivalent 5-year mortality (~19%) between I-125 brachytherapy and enucleation for medium-sized choroidal melanoma, establishing brachytherapy as a globe-conserving alternative with equivalent survival."
+  },
+  {
+    q: "Uveal melanoma exhibiting the 'double circulation' sign on ICGA represents:",
+    opts: { A: "Two separate tumour nodules", B: "Intrinsic tumour vasculature alongside the normal choroidal vasculature", C: "Arteriovenous malformation within the tumour", D: "Artefact from late ICGA imaging" },
+    correct: "B",
+    explanation: "The 'double circulation' or 'intrinsic tumour vasculature' sign on ICGA shows the tumour's own abnormal vessels alongside the choroidal vasculature — a feature supporting uveal melanoma diagnosis. It reflects the vascular mimicry pattern characteristic of melanoma."
+  },
+  {
+    q: "Retinal capillary haemangioblastoma (von Hippel tumour) is associated with mutation in which gene?",
+    opts: { A: "NF2", B: "TSC1/TSC2", C: "VHL", D: "PTEN" },
+    correct: "C",
+    explanation: "Von Hippel-Lindau syndrome is caused by mutations in the VHL tumour suppressor gene on chromosome 3p25. It is associated with retinal capillary haemangioblastomas, cerebellar/spinal haemangioblastomas, clear cell renal carcinoma, phaeochromocytoma, and pancreatic cysts."
+  }
+],
+
+imaging: [
+  {
+    q: "On OCT, the ellipsoid zone (EZ) corresponds histologically to:",
+    opts: { A: "The outer limiting membrane", B: "The inner segments of photoreceptors (IS/OS junction)", C: "The Verhoeff membrane", D: "The external limiting membrane" },
+    correct: "B",
+    explanation: "The ellipsoid zone (previously called IS/OS junction) corresponds to the junction between the inner and outer segments of photoreceptors, specifically the densely packed mitochondria in the ellipsoid region of inner segments. Its integrity correlates strongly with visual acuity."
+  },
+  {
+    q: "SS-OCT (Swept-Source OCT) uses a wavelength of approximately 1050 nm compared to SD-OCT's ~840 nm. The main advantage of SS-OCT is:",
+    opts: { A: "Better anterior segment imaging", B: "Deeper tissue penetration for improved choroidal/scleral imaging", C: "Higher axial resolution", D: "Faster acquisition eliminating motion artefact" },
+    correct: "B",
+    explanation: "SS-OCT uses a longer wavelength (~1050nm) which penetrates deeper into the choroid and sclera with less scattering, enabling superior visualisation of the choroid, choroidal-scleral interface, and deep lesions. SD-OCT has similar or slightly better axial resolution."
+  },
+  {
+    q: "On fundus autofluorescence (FAF), which substance is responsible for the autofluorescence signal from the RPE?",
+    opts: { A: "Melanin in RPE melanosomes", B: "A2E and other bisretinoid compounds in lipofuscin granules", C: "Choroidal haemoglobin", D: "Drusen protein deposits" },
+    correct: "B",
+    explanation: "FAF signal from RPE originates primarily from lipofuscin — specifically A2E (N-retinylidene-N-retinylethanolamine) and other bisretinoid compounds that accumulate in RPE lysosomes due to incomplete phagocytosis of photoreceptor outer segments."
+  },
+  {
+    q: "In fluorescein angiography, a window defect (transmission defect) produces what appearance?",
+    opts: { A: "Early hypofluorescence with late staining", B: "Early hyperfluorescence increasing in late phase (leakage)", C: "Early hyperfluorescence that does not increase or change in late phase (does not leak)", D: "Blocked fluorescence throughout all phases" },
+    correct: "C",
+    explanation: "A window defect (RPE atrophy) allows choroidal fluorescence to show through without the RPE blocking it. It appears early (as the choroid fills) and does NOT increase in late phases (does not leak), helping distinguish from CNV leakage or staining."
+  },
+  {
+    q: "OCT-A segments the retinal vasculature. Which layer contains the deep capillary plexus (DCP)?",
+    opts: { A: "Between ILM and IPL", B: "Within the outer plexiform layer and inner nuclear layer", C: "In the subretinal space", D: "At the level of Bruch's membrane" },
+    correct: "B",
+    explanation: "The deep capillary plexus (DCP) is located at the outer plexiform layer/inner nuclear layer (OPL/INL) interface. The superficial capillary plexus (SCP) is at the NFL/ganglion cell layer. The radial peripapillary capillaries are in the NFL around the disc."
+  },
+    {
+    q: "ICGA (indocyanine green angiography) is superior to FFA for visualising the choroid because ICG:",
+    opts: { A: "Has a larger molecular weight, better binding to plasma proteins, and emits near-infrared light that penetrates RPE/blood", B: "Is water-soluble and leaks faster from fenestrated choriocapillaris", C: "Has a shorter half-life allowing repeated imaging", D: "Does not bind plasma proteins allowing free circulation" },
+    correct: "A",
+    explanation: "ICG is superior for choroidal imaging because: (1) it binds strongly to plasma proteins (98%), reducing leakage from fenestrated choriocapillaris; (2) it absorbs/emits near-infrared light (~790/830nm) that penetrates the RPE, melanin, and subretinal blood."
+  },
+  {
+    q: "Enhanced Depth Imaging OCT (EDI-OCT) allows measurement of subfoveal choroidal thickness (SFCT). In which condition is SFCT characteristically INCREASED?",
+    opts: { A: "Age-related macular degeneration (geographic atrophy)", B: "High myopia", C: "Central serous chorioretinopathy (CSCR)", D: "Diabetic retinopathy" },
+    correct: "C",
+    explanation: "CSCR is characterised by significantly increased choroidal thickness (pachychoroid) with dilated outer choroidal vessels (Haller's layer) and attenuation of the choriocapillaris. High myopia and GA cause choroidal thinning. Pachychoroid is now recognised as a disease spectrum."
+  },
+  {
+    q: "Which structure appears as the hyperreflective line immediately below the RPE on OCT, forming the boundary for sub-RPE lesions?",
+    opts: { A: "Verhoeff membrane", B: "Bruch's membrane", C: "Choriocapillaris", D: "Sattler's layer" },
+    correct: "B",
+    explanation: "Bruch's membrane appears as a thin hyperreflective line immediately beneath the RPE on OCT. It is the basal lamina complex separating the RPE from the choriocapillaris and is critical for understanding where pathology lies (sub-RPE vs sub-retinal vs intraretinal)."
+  },
+  {
+    q: "Wide-field fundus imaging (Optos) captures approximately what percentage of the retinal surface?",
+    opts: { A: "30-40% (standard fundus camera)", B: "45-60% (wide field)", C: "Up to 200° (82% of the retinal surface)", D: "360° (entire retinal surface)" },
+    correct: "C",
+    explanation: "Ultra-widefield imaging (Optos Daytona) captures up to 200° of the fundus in a single image, representing approximately 80-82% of the retinal surface — far exceeding the ~30-45° of traditional fundus cameras and ~75° of wider-angle cameras."
+  },
+  {
+    q: "On OCT, a type 2 (classic) CNV membrane appears as:",
+    opts: { A: "Fibrovascular PED with flat irregular RPE detachment", B: "Hyperreflective tissue between RPE and Bruch's only", C: "Hyperreflective tissue above the RPE in the subretinal space", D: "Intraretinal cysts alone without subretinal material" },
+    correct: "C",
+    explanation: "Type 2 (classic) CNV is found ABOVE the RPE in the subretinal space — appearing as hyperreflective subretinal material on OCT, typically associated with subretinal fluid. Type 1 (occult) CNV is beneath the RPE (sub-RPE). Type 3 is intraretinal (RAP)."
+  },
+  {
+    q: "OCTA flow void in the FAZ is measured as the FAZ area. An enlarged FAZ on OCTA (superficial plexus) is most specific for which diagnosis?",
+    opts: { A: "AMD with Type 1 CNV", B: "Diabetic retinopathy with macular ischaemia", C: "CSCR", D: "Myopic CNV" },
+    correct: "B",
+    explanation: "An enlarged foveal avascular zone (FAZ) on OCT-A is a hallmark of diabetic macular ischaemia, representing capillary dropout around the fovea. FAZ area >500 μm² is associated with visual acuity loss independent of DME."
+  },
+  {
+    q: "Fundus photography shows orange pigment overlying a choroidal lesion. FAF shows hyperautofluorescence. This is most likely:",
+    opts: { A: "Choroidal naevus (benign)", B: "Lipofuscin from RPE over active choroidal melanoma or subretinal fluid", C: "Choroidal haemangioma", D: "RPE hyperplasia" },
+    correct: "B",
+    explanation: "Orange pigment (lipofuscin accumulation in RPE) is a high-risk feature for choroidal melanoma, corresponding to FAF hyperautofluorescence. It is associated with subretinal fluid and RPE stress over an active tumour. The mnemonic for melanoma risk factors: To Find Small Ocular Melanoma (Thickness, Fluid, Symptoms, Orange pigment, Melanoma hollow)."
+  },
+  {
+    q: "Microperimetry (fundus-guided perimetry) links retinal sensitivity to retinal structure. Which measurement best correlates with visual function in macular disease?",
+    opts: { A: "Mean retinal sensitivity across the entire field", B: "BCVA on ETDRS chart", C: "Point sensitivity at the preferred retinal locus (PRL) and fixation stability", D: "Choroidal thickness on EDI-OCT" },
+    correct: "C",
+    explanation: "Microperimetry provides fixation stability and sensitivity at the PRL, which correlates directly with functional vision — particularly reading ability and activities of daily living. It is more sensitive than BCVA alone in detecting functional change in macular disease."
+  },
+  {
+    q: "On FFA, late-phase hypofluorescence due to staining of fibrous tissue appears in which condition?",
+    opts: { A: "Active CNV", B: "Disciform scar", C: "Window defect", D: "RPE rip" },
+    correct: "B",
+    explanation: "Disciform scars show late hyperfluorescence due to staining of fibrous tissue — the collagen in the scar binds fluorescein, giving a persistent late stain that does NOT increase. Active CNV shows increasing hyperfluorescence (leakage) in the late phase."
+  },
+  {
+    q: "Multi-focal ERG (mfERG) is specifically used to assess which aspect of retinal function?",
+    opts: { A: "Peripheral rod function", B: "Central retinal (macular) cone function topographically", C: "Global retinal response to full-field stimulation", D: "Retinal ganglion cell function" },
+    correct: "B",
+    explanation: "mfERG uses a pseudorandom m-sequence stimulus to simultaneously derive local ERG responses from 61-103 retinal locations across the central 30-50°, allowing topographic mapping of cone function. It is particularly useful for macular disease assessment and toxicity monitoring (e.g., hydroxychloroquine)."
+  }
+],
+
+uvea: [
+  {
+    q: "The SUN (Standardisation of Uveitis Nomenclature) working group defines anterior uveitis as inflammation primarily involving which structure?",
+    opts: { A: "Vitreous only", B: "Anterior chamber (AC) with or without anterior vitreous", C: "Retina and choroid", D: "Choroid alone" },
+    correct: "B",
+    explanation: "SUN classifies uveitis anatomically: Anterior (AC ± anterior vitreous), Intermediate (vitreous and/or pars plana, no posterior segment), Posterior (retina/choroid), and Panuveitis (all segments). The primary site of inflammation determines classification."
+  },
+  {
+    q: "Behçet's disease uveitis characteristically shows which FFA finding during an acute attack?",
+    opts: { A: "Disc hyperaemia only", B: "Occlusive retinal vasculitis with ischaemia, disc staining, and diffuse vascular leakage", C: "Subretinal fluid only", D: "Choroidal detachment" },
+    correct: "B",
+    explanation: "Behçet's disease causes an occlusive pan-vasculitis with arterial and venous involvement, disc staining (papillitis), diffuse vascular leakage, and retinal ischaemia on FFA. The attacks are typically explosive and recurrent, causing progressive visual loss."
+  },
+  {
+    q: "HLA-B51 is strongly associated with which uveitis entity?",
+    opts: { A: "Vogt-Koyanagi-Harada disease", B: "Birdshot chorioretinopathy", C: "Behçet's disease", D: "Sympathetic ophthalmia" },
+    correct: "C",
+    explanation: "HLA-B51 (specifically B*5101) is strongly associated with Behçet's disease, with OR of 5-6. HLA-A29 is pathognomonic for birdshot chorioretinopathy (OR >50). HLA-DR4 and DRw53 are associated with VKH. HLA-A11 with sympathetic ophthalmia."
+  },
+  {
+    q: "Vogt-Koyanagi-Harada (VKH) disease in the acute uveitic phase shows which characteristic OCT finding?",
+    opts: { A: "Intraretinal cysts in the outer nuclear layer", B: "Multiple serous retinal detachments with septae and sub-retinal fluid", C: "Choroidal thinning with outer retinal atrophy", D: "Type 1 CNV membrane" },
+    correct: "B",
+    explanation: "Acute VKH shows multiple lobular serous retinal detachments on OCT, with hyporeflective subretinal fluid compartments separated by septa (adhesions between RPE and photoreceptors). This corresponds to the 'multiple exudative RDs' seen clinically."
+  },
+  {
+    q: "Sympathetic ophthalmia occurs after penetrating trauma to one eye (exciting eye). What is the minimum latent period before it can affect the fellow eye (sympathising eye)?",
+    opts: { A: "24 hours", B: "5 days", C: "10 days", D: "2 weeks" },
+    correct: "C",
+    explanation: "Sympathetic ophthalmia (SO) has a minimum latent period of 10 days (most cases occur within 3 months to 1 year). The risk period extends lifelong. Early enucleation of the exciting eye within 10-14 days may prevent SO, but later enucleation does not."
+  },
+  {
+    q: "Birdshot chorioretinopathy on FAF shows which pattern?",
+    opts: { A: "Multiple hyperautofluorescent spots in a scattered distribution", B: "Geographic hypoautofluorescence in a bi-temporal pattern", C: "Hypoautofluorescent lesions at the birdshot spots, sometimes surrounded by hyperAF", D: "Normal autofluorescence throughout" },
+    correct: "C",
+    explanation: "Birdshot chorioretinopathy lesions appear hypoautofluorescent on FAF (due to RPE atrophy at lesion sites) with surrounding hyperautofluorescence indicating stressed/activated RPE. The cream-coloured lesions radiate from the disc in a shotgun-blast pattern."
+  },
+  {
+    q: "Serpiginous choroiditis involves progressive destruction of choriocapillaris and RPE in a pattern radiating from the:",
+    opts: { A: "Fovea centrally outward", B: "Optic nerve head peripherally", C: "Peripheral retina inward", D: "Arcade vessels outward" },
+    correct: "B",
+    explanation: "Serpiginous choroiditis (geographic helicoid peripapillary choroidopathy) classically starts peripapillary and extends centrifugally in a geographic/serpentine pattern. Active advancing edges are grey-white; healed areas show RPE atrophy. TB-related choroiditis can mimic it."
+  },
+  {
+    q: "MEWDS (Multiple Evanescent White Dot Syndrome) — which investigation is MOST specific for diagnosis?",
+    opts: { A: "FFA showing disc staining", B: "Early-phase ICGA showing hypofluorescent dots", C: "OCT showing subretinal fluid", D: "FAF showing hyperautofluorescent dots" },
+    correct: "D",
+    explanation: "MEWDS shows hyperautofluorescent dots on FAF (representing disrupted photoreceptor outer segments with lipofuscin accumulation). Early-phase ICGA shows hypofluorescent dots. The FAF dots often exceed what is visible clinically and resolve with the disease."
+  },
+  {
+    q: "Punctate inner choroidopathy (PIC) most commonly affects which demographic?",
+    opts: { A: "Elderly males with AMD", B: "Young myopic women", C: "Children with uveitis", D: "HLA-B27 positive young men" },
+    correct: "B",
+    explanation: "PIC characteristically affects young myopic women (typically 20-40 years old) with no evidence of systemic disease. It presents with small (100-300 μm) punched-out yellowish lesions at the level of inner choroid and RPE, with no or minimal anterior chamber/vitreous inflammation."
+  },
+  {
+    q: "The most common cause of unilateral granulomatous uveitis in an immunocompetent adult in a temperate region is:",
+    opts: { A: "Sarcoidosis", B: "Toxoplasmosis", C: "Herpetic uveitis (HSV/VZV)", D: "Tuberculosis" },
+    correct: "C",
+    explanation: "Herpetic uveitis (HSV/VZV) is the most common cause of unilateral granulomatous anterior uveitis in immunocompetent adults in temperate regions, characterised by raised IOP, sectoral iris atrophy, and keratic precipitates. Toxoplasmosis is the most common cause of infectious posterior uveitis worldwide."
+  },
+  {
+    q: "Frosted branch angiitis (FBA) on fundus examination shows exuberant perivascular sheathing. The most common aetiology is:",
+    opts: { A: "Sarcoidosis", B: "CMV retinitis", C: "Toxoplasmosis", D: "Idiopathic (CMV, EBV, HSV, or idiopathic)" },
+    correct: "D",
+    explanation: "Frosted branch angiitis is rare, typically idiopathic in young patients, but can be associated with viral infections (CMV, EBV, HSV, VZV), systemic lymphoma, Behçet's, or other conditions. The dramatic white perivascular sheathing affects arteries and veins, and typically responds rapidly to steroids."
+  },
+  {
+    q: "In toxoplasma retinochoroiditis, the active lesion characteristically appears adjacent to a:",
+    opts: { A: "Retinal artery", B: "Pre-existing pigmented scar ('satellite' lesion)", C: "Area of lattice degeneration", D: "Drusenoid PED" },
+    correct: "B",
+    explanation: "Toxoplasma retinochoroiditis classically recurs adjacent to an old pigmented scar (satellite lesion). The active white fluffy lesion with overlying vitritis ('headlight in the fog') occurs at the edge of the existing scar due to encysted bradyzoites reactivating."
+  },
+  {
+    q: "Intermediate uveitis (pars planitis) with snowbank formation — which HLA association is recognised?",
+    opts: { A: "HLA-A29", B: "HLA-B51", C: "HLA-DR15 (DR2)", D: "HLA-B27" },
+    correct: "C",
+    explanation: "Pars planitis is associated with HLA-DR15 (HLA-DR2). Idiopathic pars planitis must be distinguished from intermediate uveitis secondary to MS (also HLA-DR15 linked), sarcoidosis, Lyme disease, and TB. HLA-A29 is specific for birdshot chorioretinopathy."
+  },
+  {
+    q: "The Dalen-Fuchs nodule, seen in sympathetic ophthalmia and VKH, represents which histopathological entity?",
+    opts: { A: "Granuloma between the RPE and Bruch's membrane", B: "Subretinal lymphocytic infiltrate", C: "Choroidal vessel vasculitis", D: "Photoreceptor degeneration nodule" },
+    correct: "A",
+    explanation: "Dalen-Fuchs nodules are granulomata (aggregates of epithelioid cells) located between the RPE and Bruch's membrane. They are characteristic of sympathetic ophthalmia and VKH disease, representing the immune reaction at this level."
+  },
+  {
+    q: "AZOOR (Acute Zonal Occult Outer Retinopathy) is characterised by which combination of findings?",
+    opts: { A: "Normal fundus with dense scotoma, abnormal full-field ERG, and FAF hyperautofluorescence at the junction of normal and affected retina", B: "Multiple white dots with bilateral involvement and vitritis", C: "Multifocal posterior chorioretinal lesions with perivascular sheathing", D: "Peripapillary RPE atrophy only" },
+    correct: "A",
+    explanation: "AZOOR presents with sudden visual field loss (zonal scotoma), minimal or no ophthalmoscopic findings ('occult'), abnormal ERG, and a distinct hyperautofluorescent line on FAF marking the boundary of photoreceptor dysfunction. It predominantly affects young myopic women."
+  }
+]
+};
+
+// ========================================================
+// PRIZE LADDER
+// ========================================================
+const PRIZES = [
+  { amount: "₹1,000", milestone: false },
+  { amount: "₹2,000", milestone: false },
+  { amount: "₹3,000", milestone: false },
+  { amount: "₹5,000", milestone: false },
+  { amount: "₹10,000", milestone: true },
+  { amount: "₹20,000", milestone: false },
+  { amount: "₹40,000", milestone: false },
+  { amount: "₹80,000", milestone: false },
+  { amount: "₹1,60,000", milestone: false },
+  { amount: "₹3,20,000", milestone: true },
+  { amount: "₹6,40,000", milestone: false },
+  { amount: "₹12,50,000", milestone: false },
+  { amount: "₹25,00,000", milestone: false },
+  { amount: "₹50,00,000", milestone: false },
+  { amount: "₹1,00,00,000", milestone: true }
+];
+
+const SAFE_HAVENS = [0, 4, 9]; // Q1, Q5, Q10 are safe havens
+
+// ========================================================
+// GAME STATE
+// ========================================================
+let state = {
+  playerName: "Dr. Anand",
+  studySet: "vascular",
+  questions: [],
+  currentQ: 0,
+  selectedOption: null,
+  locked: false,
+  correct: 0,
+  wrong: 0,
+  lifelinesUsed: { '5050': false, phone: false, audience: false },
+  prizeWon: "₹0",
+  gameOver: false,
+  timerInterval: null,
+  timeLeft: 60,
+};
+
+const SET_NAMES = {
+  vascular: "VASCULAR DISEASES",
+  amd: "AGE-RELATED MACULAR DEGENERATION",
+  myopia: "MYOPIA & DEGENERATIONS",
+  oncology: "ONCOLOGY",
+  imaging: "RETINAL IMAGING",
+  uvea: "UVEITIS & UVEA"
+};
+
+const HOST_LINES = {
+  start: [
+    "Namaskar, namaskar! Main hoon Amitabh Bachchan, aur aaj ka contestant hain ek bahut hi khaas insaan — ek ophthalmologist! Aap taiyaar hain?",
+    "Ek crore rupaye aapka intezaar kar rahe hain! Retina aur uvea ki is duniya mein, kya aap apni jagah bana sakte hain? Shuru karte hain!",
+    "Doctor Sahab, is hot seat par baithna ek baat hai — lekin ek crore jeetna bilkul doosri baat! Aaj dekhte hain aapka FEBOS-R kitna pakka hai!",
+    "Swagat hai aapka is mahasangram mein! Aaj retina apni rahasymay duniya kholegi aapke liye. Computer ji, sawaal tayaar karo!",
+    "Duniya ke kisi bhi exam se zyada demanding hai yeh hot seat! Par aap doctor hain — aap toh pressure mein kaam karte hain. Chaliye shuru karte hain!",
+    "Kai log aaye, kai log gaye. Lekin aaj jo Doctor Sahab baithe hain — inki aankhon mein ek crore ka sapna dikh raha hai! Computer ji, lock kar do!",
+  ],
+  correct: [
+    "Bilkul sahi! Aapne toh mujhe bhi chaunk diya! FEBOS-R aapka wait kar raha hai!",
+    "Kya baat hai! Ekdum correct! Aapki clinical knowledge dekh ke laga mujhe bhi thoda padhna chahiye!",
+    "Wah! Shabash Doctor Sahab! Retina ke is sawaal ka jawab aapne jis aaasaani se diya — zabardast!",
+    "Sahi jawab! Aur aap jaante hain kya interesting baat hai? Itni badi prize bhi sahi jawab ki tarah confident thi ki aap sahi honge!",
+    "Perfect! Bilkul sahi! Mujhe pata tha — jo doctor itne confidence se hot seat pe baithe, woh ghabrate nahi!",
+    "Correct! Aur is jawab ke saath ek aur prize confirm ho gayi! Aapki aankhein — aur aapki knowledge — dono sharp hain!",
+    "Arre wah! Yeh toh mera favourite jawab hai! VIBRANT, MARINA, ANCHOR — aap in trials ko aise jaante hain jaise apna clinic!",
+    "Haan ji! Bilkul sahi! Europeans ke board mein bhi aap yahi confidence lekar jaana — I have a feeling they will be impressed!",
+    "100% correct! Koi shaq nahi, koi confusion nahi — seedha sahi jawab! Bahut achcha, Doctor Sahab!",
+    "Wonderful! That is absolutely the right answer! Your retinal knowledge is extraordinary — even for a specialist!",
+    "Ekdum sahi! Ab aage badhte hain — aur prize bhi badh rahi hai! Har sahi jawab ek kadam aur crore ki taraf!",
+    "Main toh dil thaame baitha tha! Aur aapne bilkul sahi jawab diya! Dil khush ho gaya, Doctor Sahab!",
+  ],
+  correct_easy: [
+    "Accha! Yeh toh aapke liye ekdum aasaan tha — warm-up question! Aage ke sawaal thode gehre honge!",
+    "Sahi jawab! Pehle kuch sawaal toh bus ice-breaker hain. Asli imtihaan toh aage hai!",
+    "Correct! Aapne seedha answer kiya — bilkul clinical practice ki tarah! Achha sign hai!",
+    "Very good! Pehli question aapne bilkul confidently answer ki. Yeh confidence aage bhi rakhna!",
+  ],
+  correct_hard: [
+    "INCREDIBLE! Yeh sawaal mujhe bhi mushkil laga tha! Aap toh sach mein FEBOS-R ke liye ready hain!",
+    "Kya jawab diya! Itna mushkil sawaal, aur aapne bina ruke answer kiya! I am speechless, Doctor Sahab!",
+    "Extraordinary! Yeh sawaal sirf ek sachche retinal expert hi answer kar sakta hai — aur aapne kar diya!",
+    "Main aapse bahut impressed hoon! Iss level ka sawaal aur iss level ka jawab — remarkable combination!",
+    "Bahut mushkil sawaal tha yeh — aur aapne sahi kiya! Is hot seat par aapsa contestant bahut kam aaya hai!",
+  ],
+  wrong: [
+    "Haan... yeh sahi nahi tha. Par Doctor Sahab, yeh explanation padhiye — FEBOS-R mein zaroor kaam aayegi!",
+    "Ohhh! Bahut kareeb the aap! Par galat jawab mein crore nahi milta. Jo seekha hai woh le jaiye!",
+    "Oof! Yeh thoda tricky sawaal tha, I must confess. Par ab aap yeh concept kabhi nahi bhoolenge!",
+    "Alas! Woh sahi nahi tha. Par dekho — har galti ek guru hai. Is explanation ko dhyaan se padhna.",
+    "Haan... maafi maangni padegi. Galat jawab. Par aap jaante hain kya? Har great doctor ne yahi seekha hai — failures se!",
+    "Nahi... woh nahi tha. Par aaj jo aapne seekha, kal FEBOS-R mein kaam aayega. Yahi toh is game ka asli maqsad hai!",
+  ],
+  thinking: [
+    "Soch rahe hain... Duniya intezaar kar rahi hai, Doctor Sahab!",
+    "Take your time. In the examination hall, time is precious — but so is accuracy!",
+    "Aap ka confidence dekhke accha lagta hai. Computer ji wait kar raha hai!",
+    "This is a tough one. Even I would need to think about this for a moment!",
+    "Hmm... aap carefully soch rahe hain — wahi toh ek great clinician ki pehchaan hai!",
+    "Timer chal raha hai, lekin aapki thinking chal rahi hai — dono important hain!",
+    "Koi jaldi nahi... well, thodi jaldi hai! Timer dekh rahe hain kya aap?",
+    "Aapki aankhon mein dekh raha hoon — aap jaante hain jawab, bas confirm kar rahe hain!",
+    "In the clinic, you take your time to examine carefully. Here too — be methodical!",
+    "Retina ke raaz bahut gehre hote hain. Aur aap unhe dhundhne mein lage hain — achha!",
+    "Yeh sawaal FEBOS-R examiner bhi poochhte hain, I am told. Toh dhyaan se!",
+  ],
+  milestone: [
+    "BADHAAI HO! Aapne ek guaranteed safe haven jeet liya! Chahe aage kuch bhi ho — yeh paisa aapka hai!",
+    "Congratulations! Yeh ek milestone hai! Aapki knowledge ne aapko ek guaranteed floor tak pahuncha diya!",
+    "Safe haven secured! Ab thodi aur himmat se aage badhiye — agle milestone tak ka safar shuru hota hai!",
+    "Kya baat hai! Safe zone mein aagaye aap! FEBOS-R ki tayyari bilkul isi tarah ki hoti hai — step by step!",
+  ],
+  quit: [
+    "Samajhdaari ka faisla. Aapne bahut achchi knowledge dikhaayi. FEBOS-R mein zaroor success milegi!",
+    "Aap ne wisely quit kiya. Sometimes knowing when to stop is also wisdom. Best of luck for the exam!",
+    "Bahut achchi game kheli aapne! Yeh knowledge aapke saath hamesha rahegi — exam mein bhi!",
+    "Shukriya Doctor Sahab! Aapne is hot seat ko roshan kiya. FEBOS-R mein zaroor kamyaab honge!",
+  ],
+  question_intro: [
+    "Agle sawaal ki taraf badhte hain...",
+    "Ab agla sawaal — thoda aur mushkil...",
+    "Computer ji, agla sawaal tayaar karo!",
+    "Hmm... yeh sawaal interesting hai. Dhyaan se suniye...",
+    "Prize badh rahi hai aur sawaal bhi! Dekhte hain...",
+    "Aage badhte hain — aur prize bhi!",
+    "Ab ek aur sawaal — thoda gehra, thoda mushkil!",
+    "Is level par aake bahut log ruk jaate hain. Par aap nahi rukenge — right, Doctor Sahab?",
+  ],
+};
+
+function getHostLine(type, difficulty) {
+  let pool;
+  if (type === 'correct') {
+    if (difficulty <= 2) pool = HOST_LINES.correct_easy;
+    else if (difficulty >= 4) pool = HOST_LINES.correct_hard;
+    else pool = HOST_LINES.correct;
+  } else {
+    pool = HOST_LINES[type] || HOST_LINES.thinking;
+  }
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+// ========================================================
+// UI HELPERS
+// ========================================================
+let selectedSet = 'vascular';
+
+function selectSet(set) {
+  selectedSet = set;
+  document.querySelectorAll('.set-btn').forEach(b => b.classList.remove('selected'));
+  event.target.classList.add('selected');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+// ========================================================
+// GAME INIT
+// ========================================================
+function startGame() {
+  state.playerName = document.getElementById('player-name-input').value || "Dr. Anand";
+  state.studySet = selectedSet;
+
+  // Shuffle within difficulty tiers then arrange easy→hard
+  const bank = [...QUESTION_BANK[state.studySet]];
+  
+  // Separate into 3 tiers
+  const easy = bank.filter(q => (q.difficulty || 3) <= 2);
+  const medium = bank.filter(q => (q.difficulty || 3) === 3);
+  const hard = bank.filter(q => (q.difficulty || 3) >= 4);
+  
+  const shuffle = arr => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  };
+  
+  const ordered = [...shuffle(easy), ...shuffle(medium), ...shuffle(hard)];
+  
+  // Pick 15, pad if needed
+  while (ordered.length < 15) ordered.push(...shuffle([...bank]).slice(0, 15 - ordered.length));
+  state.questions = ordered.slice(0, 15);
+
+  state.currentQ = 0;
+  state.correct = 0;
+  state.lifelinesUsed = { '5050': false, phone: false, audience: false };
+  state.prizeWon = "₹0";
+  state.gameOver = false;
+
+  document.getElementById('player-display').textContent = state.playerName;
+  document.getElementById('set-badge-display').textContent = SET_NAMES[state.studySet];
+
+  buildPrizeLadder();
+  resetLifelineButtons();
+
+  showScreen('game-screen');
+  loadQuestion();
+}
+
+function buildPrizeLadder() {
+  const container = document.getElementById('prize-ladder-items');
+  container.innerHTML = '';
+  // Reverse order (highest at top)
+  for (let i = PRIZES.length - 1; i >= 0; i--) {
+    const item = document.createElement('div');
+    item.className = `prize-item ${PRIZES[i].milestone ? 'milestone' : 'regular'}`;
+    item.id = `prize-row-${i}`;
+    item.innerHTML = `<span class="q-num">Q${i+1}</span><span class="amount">${PRIZES[i].amount}</span>`;
+    container.appendChild(item);
+  }
+  updatePrizeLadder();
+}
+
+function updatePrizeLadder() {
+  for (let i = 0; i < PRIZES.length; i++) {
+    const row = document.getElementById(`prize-row-${i}`);
+    if (!row) continue;
+    row.classList.remove('current', 'cleared');
+    if (i < state.currentQ) row.classList.add('cleared');
+    if (i === state.currentQ) row.classList.add('current');
+  }
+  const current = state.currentQ < PRIZES.length ? PRIZES[state.currentQ].amount : PRIZES[PRIZES.length-1].amount;
+  document.getElementById('current-prize-display').textContent = current;
+  document.getElementById('score-track').textContent = `✓ Correct: ${state.correct}`;
+}
+
+function resetLifelineButtons() {
+  ['5050', 'phone', 'audience'].forEach(ll => {
+    const map = { '5050': 'll-5050', phone: 'll-phone', audience: 'll-audience' };
+    document.getElementById(map[ll]).classList.remove('used');
+  });
+}
+
+// ========================================================
+// QUESTION LOADING
+// ========================================================
+function loadQuestion() {
+  if (state.currentQ >= state.questions.length) {
+    endGame(true);
+    return;
+  }
+
+  const q = state.questions[state.currentQ];
+  state.selectedOption = null;
+  state.locked = false;
+
+  document.getElementById('q-number').textContent = `QUESTION ${state.currentQ + 1} of ${state.questions.length}`;
+  document.getElementById('question-text').textContent = q.q;
+
+  ['A','B','C','D'].forEach(letter => {
+    const btn = document.getElementById(`opt-${letter}`);
+    btn.className = 'option-btn';
+    btn.style.display = 'flex';
+    btn.disabled = false;
+    document.getElementById(`opt-${letter}-text`).textContent = q.opts[letter];
+  });
+
+  document.getElementById('confirm-area').classList.remove('visible');
+  document.getElementById('explanation-box').classList.remove('visible');
+  document.getElementById('next-btn').classList.remove('visible');
+
+  // Host line
+  const diff = q.difficulty || 3;
+  document.getElementById('host-line').textContent = getHostLine(state.currentQ === 0 ? 'start' : 'question_intro', diff);
+
+  updatePrizeLadder();
+  startTimer();
+}
+
+// ========================================================
+// SOUND ENGINE (Web Audio API)
+// ========================================================
+let audioCtx = null;
+let soundInterval = null;
+let soundEnabled = true;
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return audioCtx;
+}
+
+function playTick(timeLeft) {
+  const ctx = getAudioCtx();
+  if (!ctx || !soundEnabled) return;
+
+  // Heartbeat: two beats (lub-dub) getting faster as time runs out
+  const now = ctx.currentTime;
+  const urgency = 1 - (timeLeft / 60); // 0→1 as time runs out
+
+  // Beat 1 (lub)
+  const osc1 = ctx.createOscillator();
+  const gain1 = ctx.createGain();
+  osc1.connect(gain1);
+  gain1.connect(ctx.destination);
+  osc1.type = 'sine';
+  osc1.frequency.setValueAtTime(timeLeft > 15 ? 320 : 280, now);
+  osc1.frequency.exponentialRampToValueAtTime(timeLeft > 15 ? 140 : 100, now + 0.08);
+  gain1.gain.setValueAtTime(0.0, now);
+  gain1.gain.linearRampToValueAtTime(0.18 + urgency * 0.22, now + 0.01);
+  gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+  osc1.start(now);
+  osc1.stop(now + 0.12);
+
+  // Beat 2 (dub) — only in last 30 seconds
+  if (timeLeft <= 30) {
+    const gap = timeLeft <= 10 ? 0.08 : 0.12;
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(250, now + gap);
+    osc2.frequency.exponentialRampToValueAtTime(90, now + gap + 0.07);
+    gain2.gain.setValueAtTime(0.0, now + gap);
+    gain2.gain.linearRampToValueAtTime(0.12 + urgency * 0.18, now + gap + 0.01);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + gap + 0.1);
+    osc2.start(now + gap);
+    osc2.stop(now + gap + 0.12);
+  }
+}
+
+function startSound() {
+  stopSound();
+  if (!soundEnabled) return;
+  // First tick immediately
+  playTick(state.timeLeft);
+  // Schedule recurring ticks
+  soundInterval = setInterval(() => {
+    if (state.timeLeft > 0) playTick(state.timeLeft);
+  }, state.timeLeft > 30 ? 1000 : state.timeLeft > 15 ? 750 : 500);
+}
+
+function stopSound() {
+  if (soundInterval) { clearInterval(soundInterval); soundInterval = null; }
+}
+
+// ========================================================
+function startTimer() {
+  clearInterval(state.timerInterval);
+  state.timeLeft = 60;
+  updateTimerBar();
+  state.timerInterval = setInterval(() => {
+    state.timeLeft--;
+    updateTimerBar();
+    if (state.timeLeft <= 0) {
+      clearInterval(state.timerInterval);
+      // Auto-wrong on timeout
+      revealAnswer(null);
+    }
+  }, 1000);
+}
+
+function updateTimerBar() {
+  const pct = (state.timeLeft / 60) * 100;
+  document.getElementById('timer-bar').style.width = pct + '%';
+}
+
+function stopTimer() {
+  clearInterval(state.timerInterval);
+}
+
+// ========================================================
+// OPTION SELECTION
+// ========================================================
+function selectOption(letter) {
+  if (state.locked) return;
+  const btn = document.getElementById(`opt-${letter}`);
+  if (btn.classList.contains('hidden-by-5050')) return;
+
+  // Deselect all
+  ['A','B','C','D'].forEach(l => {
+    document.getElementById(`opt-${l}`).classList.remove('selected-pending');
+  });
+
+  state.selectedOption = letter;
+  btn.classList.add('selected-pending');
+  const diff = state.questions[state.currentQ]?.difficulty || 3;
+  document.getElementById('host-line').textContent = getHostLine('thinking', diff);
+
+  document.getElementById('confirm-area').classList.add('visible');
+}
+
+function changeAnswer() {
+  if (!state.selectedOption) return;
+  document.getElementById(`opt-${state.selectedOption}`).classList.remove('selected-pending');
+  state.selectedOption = null;
+  document.getElementById('confirm-area').classList.remove('visible');
+}
+
+function lockAnswer() {
+  if (!state.selectedOption) return;
+  state.locked = true;
+  stopTimer();
+  document.getElementById('confirm-area').classList.remove('visible');
+  revealAnswer(state.selectedOption);
+}
+
+// ========================================================
+// REVEAL ANSWER
+// ========================================================
+function revealAnswer(chosen) {
+  const q = state.questions[state.currentQ];
+  const correct = q.correct;
+  state.locked = true;
+  stopTimer();
+
+  // Animate: pending → flash → reveal
+  setTimeout(() => {
+    // Show correct
+    document.getElementById(`opt-${correct}`).classList.add('correct');
+    document.getElementById(`opt-${correct}`).classList.remove('selected-pending');
+
+    if (chosen && chosen !== correct) {
+      document.getElementById(`opt-${chosen}`).classList.add('wrong');
+      document.getElementById(`opt-${chosen}`).classList.remove('selected-pending');
+    }
+
+    // Disable all
+    ['A','B','C','D'].forEach(l => {
+      document.getElementById(`opt-${l}`).classList.add('disabled');
+      document.getElementById(`opt-${l}`).disabled = true;
+    });
+
+    const isCorrect = chosen === correct;
+    const diff = q.difficulty || 3;
+
+    if (isCorrect) {
+      state.correct++;
+      state.prizeWon = PRIZES[state.currentQ].amount;
+      document.getElementById('host-line').textContent = getHostLine('correct', diff);
+
+      if (SAFE_HAVENS.includes(state.currentQ)) {
+        setTimeout(() => {
+          document.getElementById('host-line').textContent = getHostLine('milestone');
+        }, 2000);
+      }
+    } else {
+      document.getElementById('host-line').textContent = getHostLine('wrong');
+
+      // Calculate winnings (last safe haven)
+      let safeAmount = "₹0";
+      for (let sh of SAFE_HAVENS) {
+        if (state.currentQ > sh) safeAmount = PRIZES[sh].amount;
+      }
+      state.prizeWon = safeAmount;
+    }
+
+    // Show explanation
+    document.getElementById('explanation-text').textContent = q.explanation;
+    document.getElementById('explanation-box').classList.add('visible');
+    document.getElementById('next-btn').classList.add('visible');
+
+    updatePrizeLadder();
+
+    // If wrong and not last question
+    if (!isCorrect) {
+      document.getElementById('next-btn').textContent = '📊 SEE RESULTS';
+      document.getElementById('next-btn').onclick = () => endGame(false);
+    } else if (state.currentQ >= state.questions.length - 1) {
+      document.getElementById('next-btn').textContent = '🏆 CLAIM YOUR PRIZE!';
+      document.getElementById('next-btn').onclick = () => endGame(true);
+    } else {
+      document.getElementById('next-btn').textContent = 'NEXT QUESTION →';
+      document.getElementById('next-btn').onclick = nextQuestion;
+    }
+  }, 800);
+}
+
+function nextQuestion() {
+  if (state.currentQ < state.questions.length - 1) {
+    state.currentQ++;
+    loadQuestion();
+  } else {
+    endGame(true);
+  }
+}
+
+// ========================================================
+// LIFELINES
+// ========================================================
+function use5050() {
+  if (state.lifelinesUsed['5050'] || state.locked) return;
+  state.lifelinesUsed['5050'] = true;
+  document.getElementById('ll-5050').classList.add('used');
+
+  const q = state.questions[state.currentQ];
+  const correct = q.correct;
+  const letters = ['A','B','C','D'];
+  const wrong = letters.filter(l => l !== correct);
+
+  // Remove 2 wrong answers
+  let removed = 0;
+  for (let l of wrong) {
+    if (removed >= 2) break;
+    document.getElementById(`opt-${l}`).classList.add('hidden-by-5050');
+    removed++;
+  }
+
+  document.getElementById('host-line').textContent = "Computer ji ne do options hata diye! Ab sirf do options bachein hain!";
+}
+
+function useAudience() {
+  if (state.lifelinesUsed.audience || state.locked) return;
+  state.lifelinesUsed.audience = true;
+  document.getElementById('ll-audience').classList.add('used');
+
+  const q = state.questions[state.currentQ];
+  const correct = q.correct;
+
+  // Generate smart audience votes (biased toward correct, but not 100%)
+  const letters = ['A','B','C','D'].filter(l => document.getElementById(`opt-${l}`).style.display !== 'none' && !document.getElementById(`opt-${l}`).classList.contains('hidden-by-5050'));
+  
+  // Audience is ~70% accurate
+  let votes = {};
+  letters.forEach(l => votes[l] = 0);
+  const total = 100;
+  const correctVote = Math.floor(55 + Math.random() * 25); // 55-80%
+  votes[correct] = correctVote;
+  let remaining = total - correctVote;
+  const others = letters.filter(l => l !== correct);
+  others.forEach((l, i) => {
+    if (i === others.length - 1) {
+      votes[l] = remaining;
+    } else {
+      const v = Math.floor(Math.random() * remaining * 0.7);
+      votes[l] = v;
+      remaining -= v;
+    }
+  });
+
+  ['A','B','C','D'].forEach(l => {
+    const pct = votes[l] || 0;
+    const barHeight = (pct / 100) * 110;
+    document.getElementById(`aud-${l}`).style.height = barHeight + 'px';
+    document.getElementById(`aud-${l}-pct`).textContent = pct + '%';
+  });
+
+  document.getElementById('audience-modal').classList.add('active');
+  document.getElementById('host-line').textContent = "Audience ne vote kar diya! Dekhte hain audience kya kehti hai!";
+}
+
+function usePhone() {
+  if (state.lifelinesUsed.phone || state.locked) return;
+  state.lifelinesUsed.phone = true;
+  document.getElementById('ll-phone').classList.add('used');
+
+  const q = state.questions[state.currentQ];
+  const correct = q.correct;
+  const letters = ['A','B','C','D'];
+
+  // Friend is ~85% confident
+  const confident = Math.random() > 0.15;
+  let phoneText = "";
+
+  if (confident) {
+    phoneText = `"Hello! Hello Doctor Sahab! Haan, main sun raha hoon! Ye sawaal dekha maine... Mujhe lagta hai answer ${correct} hai — yeh ${q.opts[correct]}. Haan, main kaafi sure hoon is ke baare mein! Bahut important concept hai FEBOS-R ke liye. Aap ${correct} try karein!"`;
+  } else {
+    // Friend is unsure, hints at right answer
+    const hint = correct;
+    const other = letters.filter(l => l !== correct)[Math.floor(Math.random()*3)];
+    phoneText = `"Hello! Aaawaz theek aa rahi hai? Main sure nahi hoon, but I think it could be ${hint} or maybe ${other}... Ye concept thoda tricky hai. Main ${hint} ke saath jaaunga, but double-check karo! Time kam hai!"`;
+  }
+
+  document.getElementById('phone-text').textContent = phoneText;
+  document.getElementById('phone-modal').classList.add('active');
+  document.getElementById('host-line').textContent = "Dr. Sharma se baat ho rahi hai! Suniye dhyaan se!";
+}
+
+// ========================================================
+// QUIT
+// ========================================================
+function confirmQuit() {
+  // Find safe haven prize
+  let safeAmount = "₹0";
+  for (let sh of SAFE_HAVENS) {
+    if (state.currentQ > sh) safeAmount = PRIZES[sh].amount;
+  }
+  if (state.currentQ > 0 && !safeAmount) safeAmount = PRIZES[state.currentQ - 1].amount;
+
+  document.getElementById('quit-modal-text').textContent = 
+    `${state.playerName}, agar aap quit karte hain, aap le jaayenge ${safeAmount}. Kya aap sure hain?`;
+  document.getElementById('quit-modal').classList.add('active');
+}
+
+function doQuit() {
+  closeModal('quit-modal');
+  let safeAmount = "₹0";
+  for (let sh of SAFE_HAVENS) {
+    if (state.currentQ > sh) safeAmount = PRIZES[sh].amount;
+  }
+  state.prizeWon = safeAmount;
+  stopTimer();
+  endGame('quit');
+}
+
+// ========================================================
+// END GAME
+// ========================================================
+function endGame(type) {
+  stopTimer();
+  stopSound();
+  state.gameOver = true;
+
+  const lifelinesUsedCount = Object.values(state.lifelinesUsed).filter(Boolean).length;
+  // currentQ is 0-indexed; if type===true (won), all questions answered
+  const qAnswered = (type === true) ? state.questions.length : state.currentQ + (type === false ? 1 : 0);
+
+  document.getElementById('result-subtitle').textContent = state.playerName;
+  document.getElementById('res-q').textContent = `${qAnswered}/${state.questions.length}`;
+  document.getElementById('res-correct').textContent = state.correct;
+  document.getElementById('res-lifelines').textContent = `${lifelinesUsedCount}/3`;
+
+  if (type === true && state.currentQ >= state.questions.length - 1 && state.correct === state.questions.length) {
+    // Won everything
+    document.getElementById('result-trophy').textContent = '🏆';
+    document.getElementById('result-title').textContent = 'CROREPATI!';
+    document.getElementById('result-amount').textContent = '₹1,00,00,000';
+    document.getElementById('host-final-msg').textContent = `"Aaj maine ek sachche FEBOS-R expert se mulaqat ki! ${state.playerName} ne sabhi sawaalon ka sahi jawab diya! CONGRATULATIONS! Aap Crorepati ban gaye! European Board of Ophthalmology mein bhi zaroor kamyaab honge! Jai Hind!"`;
+  } else if (type === 'quit') {
+    document.getElementById('result-trophy').textContent = '🎓';
+    document.getElementById('result-title').textContent = 'WISELY QUIT!';
+    document.getElementById('result-amount').textContent = state.prizeWon;
+    document.getElementById('host-final-msg').textContent = `"${getHostLine('quit')} ${state.playerName} ne ${state.correct} sawaalon ka sahi jawab diya aur ${state.prizeWon} ghar le jaate hain! FEBOS-R mein zaroor success milegi!"`;
+  } else if (type === false) {
+    document.getElementById('result-trophy').textContent = '📚';
+    document.getElementById('result-title').textContent = 'KEEP LEARNING!';
+    document.getElementById('result-amount').textContent = state.prizeWon;
+    document.getElementById('host-final-msg').textContent = `"${getHostLine('wrong')} ${state.playerName}, aap ${state.correct} questions sahi kiye aur ${state.prizeWon} ghar le jaate hain. Har galti ek seekh hai. FEBOS-R ke liye taiyaariye jari rakho. Hum phir milenge!"`;
+  } else {
+    document.getElementById('result-trophy').textContent = '🏆';
+    document.getElementById('result-title').textContent = 'CONGRATULATIONS!';
+    document.getElementById('result-amount').textContent = state.prizeWon;
+    document.getElementById('host-final-msg').textContent = `"Kya jawab diya, ${state.playerName}! ${state.correct} correct answers ke saath aap ne ${state.prizeWon} jeete! Aapki FEBOS-R preparation ekdum zabardast hai! Amitabh Bachchan ki taraf se — bahut bahut badhaai!"`;
+  }
+
+  showScreen('result-screen');
+}
+
+function playAgain() {
+  showScreen('intro-screen');
+}
+
+// ========================================================
+// KEYBOARD SUPPORT
+// ========================================================
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('game-screen').classList.contains('active') && !state.locked) {
+    const map = { 'a': 'A', 'b': 'B', 'c': 'C', 'd': 'D', 'A': 'A', 'B': 'B', 'C': 'C', 'D': 'D' };
+    if (map[e.key]) selectOption(map[e.key]);
+    if (e.key === 'Enter' && state.selectedOption) lockAnswer();
+  }
+});
+</script>
+</body>
+</html>
